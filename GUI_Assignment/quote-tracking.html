@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quote Tracking - Smile & Sunshine Toys</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .tracking-container {
+      max-width: 1000px;
+      margin: 100px auto 40px;
+      padding: 0 20px;
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .page-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .tracking-search {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .search-form {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .search-input {
+      flex-grow: 1;
+      padding: 15px 20px;
+      border: 2px solid #dee2e6;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn-search {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-search:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .tracking-result {
+      display: none;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .result-header {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 25px 30px;
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    .request-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .request-meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .request-id {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .request-status {
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-in-progress {
+      background: #cce5ff;
+      color: #0056b3;
+    }
+
+    .status-quoted {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-rejected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .status-completed {
+      background: #e2e3e5;
+      color: #383d41;
+    }
+
+    .request-date {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .result-body {
+      padding: 30px;
+    }
+
+    .tracking-timeline {
+      position: relative;
+      margin: 30px 0;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 20px;
+      top: 30px;
+      bottom: 30px;
+      width: 2px;
+      background: #dee2e6;
+    }
+
+    .timeline-progress {
+      position: absolute;
+      left: 20px;
+      top: 30px;
+      width: 2px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: height 1s ease;
+    }
+
+    .timeline-step {
+      position: relative;
+      padding: 20px 0 20px 60px;
+      margin-bottom: 10px;
+    }
+
+    .step-icon {
+      position: absolute;
+      left: 0;
+      top: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .step-icon.completed {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 0 0 4px white, 0 0 0 6px #667eea;
+    }
+
+    .step-icon.current {
+      background: #fff;
+      border: 3px solid #667eea;
+      color: #667eea;
+      animation: pulse 2s infinite;
+    }
+
+    .step-icon.pending {
+      background: #f8f9fa;
+      border: 2px solid #dee2e6;
+      color: #999;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+      }
+    }
+
+    .step-content {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin-left: 10px;
+    }
+
+    .step-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .step-description {
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .step-time {
+      font-size: 0.9rem;
+      color: #999;
+    }
+
+    .step-estimate {
+      font-size: 0.9rem;
+      color: #667eea;
+      font-weight: 500;
+    }
+
+    .quote-summary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      margin-top: 30px;
+    }
+
+    .summary-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    .summary-item {
+      text-align: center;
+    }
+
+    .summary-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 5px;
+    }
+
+    .summary-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .contact-info {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 25px;
+      margin-top: 20px;
+    }
+
+    .contact-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .contact-text {
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .contact-methods {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      background: white;
+      border-radius: 8px;
+      color: #667eea;
+      text-decoration: none;
+      border: 1px solid #dee2e6;
+      transition: all 0.3s ease;
+    }
+
+    .contact-method:hover {
+      background: #667eea;
+      color: white;
+      text-decoration: none;
+    }
+
+    .error-state {
+      display: none;
+      text-align: center;
+      padding: 60px 40px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .error-icon {
+      font-size: 4rem;
+      color: #dc3545;
+      margin-bottom: 20px;
+    }
+
+    .error-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .error-text {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #666;
+      padding: 12px 25px;
+      border: 2px solid #dee2e6;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #e9ecef;
+      border-color: #adb5bd;
+      color: #495057;
+      text-decoration: none;
+    }
+
+    .progress-bar {
+      background: #dee2e6;
+      height: 6px;
+      border-radius: 3px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease;
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .tracking-container {
+        margin-top: 80px;
+        padding: 0 10px;
+      }
+
+      .page-header {
+        padding: 20px;
+      }
+
+      .page-title {
+        font-size: 1.8rem;
+      }
+
+      .search-form {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .tracking-search {
+        padding: 20px;
+      }
+
+      .result-body {
+        padding: 20px;
+      }
+
+      .request-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .timeline-step {
+        padding: 15px 0 15px 50px;
+      }
+
+      .step-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+      }
+
+      .step-content {
+        margin-left: 5px;
+        padding: 15px;
+      }
+
+      .summary-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+
+      .contact-methods {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="index.html">
+          <span class="logo-icon">🌟</span>
+          <span class="logo-text">Smile & Sunshine</span>
+        </a>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="catalog.html" class="nav-link">Catalog</a></li>
+        <li><a href="custom-toys.html" class="nav-link">Custom Design</a></li>
+        <li><a href="quote-requests.html" class="nav-link">My Quotes</a></li>
+        <li><a href="quote-tracking.html" class="nav-link active">Track Quote</a></li>
+        <li><a href="order-status.html" class="nav-link">Orders</a></li>
+      </ul>
+      <div class="nav-auth">
+        <a href="login.html" class="nav-link" id="authLink">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="tracking-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Track Your Quote</h1>
+      <p class="page-subtitle">Enter your quote ID or email to track the progress of your custom toy request</p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="tracking-search">
+      <form class="search-form" id="trackingForm">
+        <input 
+          type="text" 
+          class="search-input" 
+          id="trackingInput" 
+          placeholder="Enter Quote ID (e.g., 1700000000000) or Email Address"
+          required
+        >
+        <button type="submit" class="btn-search">Track Quote</button>
+      </form>
+      <div style="margin-top: 15px; font-size: 0.9rem; color: #666; text-align: center;">
+        💡 Tip: You can find your Quote ID in the confirmation email or on your quote requests page
+      </div>
+    </div>
+
+    <!-- Tracking Result -->
+    <div class="tracking-result" id="trackingResult">
+      <div class="result-header">
+        <div class="request-title" id="requestTitle">Loading...</div>
+        <div class="request-meta">
+          <span class="request-id" id="requestId">Quote #</span>
+          <span class="request-status" id="requestStatus">pending</span>
+          <span class="request-date" id="requestDate">Submitted on</span>
+        </div>
+      </div>
+
+      <div class="result-body">
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">Request submitted and under review</div>
+
+        <!-- Timeline -->
+        <div class="tracking-timeline">
+          <div class="timeline-line"></div>
+          <div class="timeline-progress" id="timelineProgress"></div>
+          
+          <div class="timeline-step">
+            <div class="step-icon completed" data-step="1">1</div>
+            <div class="step-content">
+              <div class="step-title">Request Submitted</div>
+              <div class="step-description">Your custom toy design request has been successfully submitted to our team.</div>
+              <div class="step-time" id="step1Time">--</div>
+            </div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="step-icon pending" data-step="2">2</div>
+            <div class="step-content">
+              <div class="step-title">Design Review</div>
+              <div class="step-description">Our design team is reviewing your specifications and requirements. We may contact you for additional details.</div>
+              <div class="step-time" id="step2Time">--</div>
+              <div class="step-estimate">Estimated: 2-3 business days</div>
+            </div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="step-icon pending" data-step="3">3</div>
+            <div class="step-content">
+              <div class="step-title">Quote Preparation</div>
+              <div class="step-description">We're preparing your detailed quote including pricing, timeline, and material specifications.</div>
+              <div class="step-time" id="step3Time">--</div>
+              <div class="step-estimate">Estimated: 1-2 business days</div>
+            </div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="step-icon pending" data-step="4">4</div>
+            <div class="step-content">
+              <div class="step-title">Quote Ready</div>
+              <div class="step-description">Your personalized quote is ready! We'll send you the details via email and update your account.</div>
+              <div class="step-time" id="step4Time">--</div>
+              <div class="step-estimate">Email notification sent</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quote Summary -->
+        <div class="quote-summary" id="quoteSummary" style="display: none;">
+          <div class="summary-title">Quote Summary</div>
+          <div class="summary-grid">
+            <div class="summary-item">
+              <div class="summary-label">Estimated Price</div>
+              <div class="summary-value" id="summaryPrice">$---</div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-label">Production Time</div>
+              <div class="summary-value" id="summaryTime">-- days</div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-label">Quantity</div>
+              <div class="summary-value" id="summaryQuantity">--</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <div class="contact-title">Need Help?</div>
+          <div class="contact-text">
+            If you have any questions about your quote or need to make changes to your request, 
+            our customer service team is here to help.
+          </div>
+          <div class="contact-methods">
+            <a href="mailto:quotes@smileandsunshine.com" class="contact-method">
+              <span>✉️</span> Email Support
+            </a>
+            <a href="tel:+1-800-TOYS" class="contact-method">
+              <span>📞</span> Call Us
+            </a>
+            <a href="#" class="contact-method" onclick="startLiveChat()">
+              <span>💬</span> Live Chat
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-state" id="errorState">
+      <div class="error-icon">🔍</div>
+      <h2 class="error-title">Quote Not Found</h2>
+      <p class="error-text">
+        We couldn't find a quote with the provided information. Please check your Quote ID or email address and try again.
+      </p>
+      <a href="quote-requests.html" class="btn-secondary">View All My Quotes</a>
+    </div>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Initialize page
+      checkAuthentication();
+      setupEventListeners();
+      checkUrlParams();
+
+      function checkAuthentication() {
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (user) {
+          $('#authLink').text('Logout').attr('href', '#').on('click', function(e) {
+            e.preventDefault();
+            logout();
+          });
+        }
+      }
+
+      function setupEventListeners() {
+        $('#trackingForm').on('submit', function(e) {
+          e.preventDefault();
+          const input = $('#trackingInput').val().trim();
+          if (input) {
+            trackQuote(input);
+          }
+        });
+      }
+
+      function checkUrlParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const quoteId = urlParams.get('id');
+        const email = urlParams.get('email');
+        
+        if (quoteId) {
+          $('#trackingInput').val(quoteId);
+          trackQuote(quoteId);
+        } else if (email) {
+          $('#trackingInput').val(email);
+          trackQuote(email);
+        }
+      }
+
+      function trackQuote(searchTerm) {
+        const quotes = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
+        
+        // Search by ID or email
+        const isEmail = searchTerm.includes('@');
+        const quote = quotes.find(q => {
+          if (isEmail) {
+            return q.contact.email.toLowerCase() === searchTerm.toLowerCase();
+          } else {
+            return q.id.toString() === searchTerm;
+          }
+        });
+
+        if (quote) {
+          displayTrackingResult(quote);
+        } else {
+          showErrorState();
+        }
+      }
+
+      function displayTrackingResult(quote) {
+        // Hide error state and show result
+        $('#errorState').hide();
+        $('#trackingResult').show();
+
+        // Populate header information
+        $('#requestTitle').text(quote.name);
+        $('#requestId').text(`Quote #${quote.id}`);
+        $('#requestStatus').text(quote.status.replace('-', ' ')).attr('class', `request-status status-${quote.status}`);
+        $('#requestDate').text(`Submitted on ${new Date(quote.submittedAt).toLocaleDateString()}`);
+
+        // Update timeline based on status
+        updateTimeline(quote);
+
+        // Show quote summary if available
+        if (quote.finalPrice) {
+          $('#quoteSummary').show();
+          $('#summaryPrice').text(`$${quote.finalPrice}`);
+          $('#summaryQuantity').text(quote.quantity);
+          $('#summaryTime').text('14-21'); // Default production time
+        }
+
+        // Smooth scroll to result
+        $('#trackingResult')[0].scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function updateTimeline(quote) {
+        // Reset all steps to pending
+        $('.step-icon').removeClass('completed current').addClass('pending');
+        
+        let currentStep = 1;
+        let progressPercentage = 25;
+
+        // Update steps based on status
+        switch (quote.status) {
+          case 'pending':
+            currentStep = 1;
+            progressPercentage = 25;
+            $('#progressText').text('Your request is being reviewed by our design team');
+            break;
+            
+          case 'in-progress':
+            currentStep = 2;
+            progressPercentage = 50;
+            $('.step-icon[data-step="1"]').removeClass('pending').addClass('completed');
+            $('.step-icon[data-step="2"]').removeClass('pending').addClass('current');
+            $('#progressText').text('Design review in progress - we may contact you soon');
+            break;
+            
+          case 'quoted':
+            currentStep = 4;
+            progressPercentage = 100;
+            $('.step-icon[data-step="1"], .step-icon[data-step="2"], .step-icon[data-step="3"], .step-icon[data-step="4"]')
+              .removeClass('pending').addClass('completed');
+            $('#progressText').text('Your quote is ready! Check your email for details');
+            break;
+            
+          case 'rejected':
+            currentStep = 3;
+            progressPercentage = 75;
+            $('.step-icon[data-step="1"], .step-icon[data-step="2"]').removeClass('pending').addClass('completed');
+            $('.step-icon[data-step="3"]').removeClass('pending').addClass('current');
+            $('#progressText').text('Unable to fulfill this request - please contact us for alternatives');
+            break;
+            
+          case 'accepted':
+          case 'completed':
+            currentStep = 4;
+            progressPercentage = 100;
+            $('.step-icon').removeClass('pending').addClass('completed');
+            $('#progressText').text('Quote accepted - production will begin soon!');
+            break;
+        }
+
+        // Animate progress bar
+        setTimeout(() => {
+          $('#progressFill').css('width', progressPercentage + '%');
+        }, 500);
+
+        // Animate timeline progress
+        setTimeout(() => {
+          const timelineHeight = currentStep * 25; // Rough calculation
+          $('#timelineProgress').css('height', timelineHeight + '%');
+        }, 800);
+
+        // Add timestamps
+        $('#step1Time').text(new Date(quote.submittedAt).toLocaleString());
+
+        if (quote.lastUpdated && quote.status !== 'pending') {
+          $(`#step${currentStep}Time`).text(new Date(quote.lastUpdated).toLocaleString());
+        }
+
+        // Add estimated completion dates
+        const submittedDate = new Date(quote.submittedAt);
+        if (quote.status === 'pending' || quote.status === 'in-progress') {
+          const estimatedDate = new Date(submittedDate.getTime() + (5 * 24 * 60 * 60 * 1000)); // 5 days
+          $('#step4Time').text(`Estimated: ${estimatedDate.toLocaleDateString()}`);
+        }
+      }
+
+      function showErrorState() {
+        $('#trackingResult').hide();
+        $('#errorState').show();
+        
+        // Smooth scroll to error state
+        $('#errorState')[0].scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function logout() {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+      }
+
+      // Global function for live chat (placeholder)
+      window.startLiveChat = function() {
+        alert('Live chat feature will be available soon! Please contact us via email or phone for immediate assistance.');
+      };
+
+      // Demo data generator (for testing)
+      function generateDemoQuote() {
+        const demoQuote = {
+          id: Date.now(),
+          name: 'Custom Teddy Bear',
+          category: 'plush',
+          status: 'in-progress',
+          contact: {
+            email: 'demo@example.com'
+          },
+          submittedAt: new Date(Date.now() - (2 * 24 * 60 * 60 * 1000)).toISOString(), // 2 days ago
+          lastUpdated: new Date(Date.now() - (1 * 24 * 60 * 60 * 1000)).toISOString(), // 1 day ago
+          quantity: 1,
+          finalPrice: '125'
+        };
+
+        const existingQuotes = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
+        existingQuotes.push(demoQuote);
+        localStorage.setItem('quoteRequests', JSON.stringify(existingQuotes));
+        
+        return demoQuote.id;
+      }
+
+      // Add demo button for testing (remove in production)
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        const demoBtn = $(`
+          <button style="position: fixed; bottom: 20px; right: 20px; background: #667eea; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; z-index: 1000;">
+            Generate Demo Quote
+          </button>
+        `);
+        
+        demoBtn.on('click', function() {
+          const demoId = generateDemoQuote();
+          $('#trackingInput').val(demoId);
+          trackQuote(demoId.toString());
+          $(this).remove();
+        });
+        
+        $('body').append(demoBtn);
+      }
+    });
+  </script>
+</body>
+</html>

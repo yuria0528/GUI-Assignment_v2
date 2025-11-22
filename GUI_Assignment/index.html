@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smile & Sunshine Toys - Premium Toys & Customization</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    /* Oriental Traffic inspired styles */
+    body {
+      background: #ffffff;
+      color: #333;
+      padding: 0;
+    }
+    
+    .top-banner {
+      background: #f8f8f8;
+      padding: 8px 0;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .main-header {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+    
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #333;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .main-nav {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .main-nav a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 10px 0;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .cart-icon {
+      position: relative;
+      color: #333;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ff4757;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 80px 0;
+      text-align: center;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .hero-title {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .hero-subtitle {
+      font-size: 20px;
+      margin-bottom: 40px;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+    
+    .hero-cta {
+      display: inline-block;
+      background: white;
+      color: #667eea;
+      padding: 15px 40px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+    }
+    
+    .content-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin: 80px 0 60px 0;
+    }
+    
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .section-subtitle {
+      font-size: 16px;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      margin: 60px 0;
+    }
+    
+    .feature-card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid #f0f0f0;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    }
+    
+    .feature-icon {
+      font-size: 48px;
+      margin-bottom: 25px;
+      color: #667eea;
+    }
+    
+    .feature-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    
+    .feature-desc {
+      color: #666;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    
+    .cta-section {
+      background: #f8f9fa;
+      padding: 80px 0;
+      text-align: center;
+      margin-top: 80px;
+    }
+    
+    .cta-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    
+    .cta-text {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 35px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: #667eea;
+      border: 2px solid #667eea;
+      padding: 13px 35px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .btn-secondary:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .main-footer {
+      background: #2c3e50;
+      color: white;
+      padding: 60px 0 30px 0;
+      margin-top: 80px;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+    
+    .footer-section h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #667eea;
+    }
+    
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-section ul li a {
+      color: #bdc3c7;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-section ul li a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid #34495e;
+      margin-top: 40px;
+      padding-top: 20px;
+      text-align: center;
+      color: #95a5a6;
+      font-size: 14px;
+    }
+    
+    .mobile-nav {
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      .main-nav {
+        display: none;
+      }
+      
+      .mobile-nav {
+        display: block;
+      }
+      
+      .hero-title {
+        font-size: 32px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Banner -->
+  <div class="top-banner">
+    🚚 Free Delivery on Orders Over $500 | 🎁 Special Offers Available | 📞 Customer Service: 1-800-TOYS
+  </div>
+
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        🧸 Smile & Sunshine
+      </a>
+      
+      <nav class="main-nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="catalog.html">Products</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="order-status.html">Orders</a>
+        <a href="sales-dashboard.html">Dashboard</a>
+      </nav>
+      
+      <div class="header-actions">
+        <a href="wishlist.html" class="cart-icon">
+          🛒 <span class="cart-badge">0</span>
+        </a>
+        <a href="login.html" class="btn-secondary">Sign In</a>
+      </div>
+      
+      <!-- Mobile Menu Button -->
+      <div class="mobile-nav">
+        <button>☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Premium Custom Toys</h1>
+      <p class="hero-subtitle">Design, request, and track your perfect toys with our professional customization service</p>
+      <a href="catalog.html" class="hero-cta">Explore Collection</a>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="content-wrapper">
+    <!-- Features Section -->
+    <section class="section-header">
+      <h2 class="section-title">Why Choose Us</h2>
+      <p class="section-subtitle">Professional toy customization with premium quality materials and expert craftsmanship</p>
+    </section>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3 class="feature-title">Custom Design</h3>
+        <p class="feature-desc">Browse our extensive catalog and customize toys with your preferred colors, sizes, and specifications to create something unique.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">💝</div>
+        <h3 class="feature-title">Wishlist & Orders</h3>
+        <p class="feature-desc">Save your favorite designs to wishlist, submit purchase requests, and choose from multiple payment methods for convenience.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3 class="feature-title">Order Management</h3>
+        <p class="feature-desc">Track your orders in real-time while our sales team manages and updates order status through our professional backend system.</p>
+      </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+      <div class="content-wrapper">
+        <h2 class="cta-title">Ready to Create Your Perfect Toy?</h2>
+        <p class="cta-text">Join thousands of satisfied customers who trust us with their custom toy needs. Start your journey today!</p>
+        <div class="cta-buttons">
+          <a href="catalog.html" class="btn-primary">Browse Catalog</a>
+          <a href="login.html" class="btn-secondary">Create Account</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>About Smile & Sunshine</h4>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Quality Promise</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Press & Media</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Customer Service</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns & Exchanges</a></li>
+          <li><a href="#">Size Guide</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>My Account</h4>
+        <ul>
+          <li><a href="login.html">Sign In</a></li>
+          <li><a href="register.html">Create Account</a></li>
+          <li><a href="order-status.html">Order Status</a></li>
+          <li><a href="wishlist.html">My Wishlist</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 Smile & Sunshine Toy Co. Ltd. All rights reserved. | Privacy Policy | Terms of Service</p>
+    </div>
+  </footer>
+
+  <script>
+    $(document).ready(function() {
+      // Smooth scrolling for anchor links
+      $('a[href^="#"]').on('click', function(event) {
+        var target = $(this.getAttribute('href'));
+        if(target.length) {
+          event.preventDefault();
+          $('html, body').stop().animate({
+            scrollTop: target.offset().top - 80
+          }, 1000);
+        }
+      });
+      
+      // Add scroll effect to header
+      $(window).scroll(function() {
+        var scroll = $(window).scrollTop();
+        if (scroll >= 50) {
+          $('.main-header').addClass('scrolled');
+        } else {
+          $('.main-header').removeClass('scrolled');
+        }
+      });
+      
+      // Cart badge animation
+      $('.cart-icon').on('click', function(e) {
+        e.preventDefault();
+        $(this).find('.cart-badge').animate({
+          fontSize: '14px'
+        }, 200).animate({
+          fontSize: '10px'
+        }, 200);
+        window.location.href = 'wishlist.html';
+      });
+    });
+  </script>
+</body>
+</html>

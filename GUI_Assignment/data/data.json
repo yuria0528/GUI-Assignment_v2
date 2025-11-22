@@ -1,0 +1,7 @@
+{
+  "toys": [
+    { "id": "t1", "name": "Sunny Bear", "desc": "Soft plush bear, customizable color", "price": 120, "img": "https://picsum.photos/seed/bear/400/300" },
+    { "id": "t2", "name": "Joy Robot", "desc": "Plastic robot toy with fabric parts", "price": 180, "img": "https://picsum.photos/seed/robot/400/300" },
+    { "id": "t3", "name": "Dream Bunny", "desc": "Cute bunny, personalized embroidery available", "price": 140, "img": "https://picsum.photos/seed/bunny/400/300" }
+  ]
+}

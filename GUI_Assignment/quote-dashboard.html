@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quote Management Dashboard - Smile & Sunshine Toys</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 80px auto 40px;
+      padding: 0 20px;
+    }
+
+    .dashboard-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dashboard-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .dashboard-subtitle {
+      opacity: 0.9;
+    }
+
+    .user-info {
+      text-align: right;
+    }
+
+    .user-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .user-role {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 30px;
+    }
+
+    .quotes-section {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 25px 30px;
+      border-bottom: 2px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .filter-select {
+      padding: 8px 12px;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      background: white;
+    }
+
+    .search-input {
+      padding: 8px 12px;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      width: 200px;
+    }
+
+    .quotes-list {
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .quote-item {
+      padding: 20px 30px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quote-item:hover {
+      background: #f8f9fa;
+    }
+
+    .quote-item.selected {
+      background: #e3f2fd;
+      border-left: 4px solid #667eea;
+    }
+
+    .quote-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .quote-info {
+      flex-grow: 1;
+    }
+
+    .quote-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .quote-meta {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .quote-status {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-in-progress {
+      background: #cce5ff;
+      color: #0056b3;
+    }
+
+    .status-quoted {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-rejected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .quote-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-action {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-success {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #666;
+      border: 1px solid #dee2e6;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .quote-details {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .details-header {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 20px;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .details-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .details-subtitle {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .details-content {
+      padding: 20px;
+    }
+
+    .detail-group {
+      margin-bottom: 20px;
+    }
+
+    .detail-label {
+      font-size: 0.8rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .detail-value {
+      color: #333;
+      font-weight: 500;
+    }
+
+    .quote-form {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .activity-feed {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+
+    .activity-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .activity-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #667eea;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .activity-content {
+      flex-grow: 1;
+    }
+
+    .activity-text {
+      color: #333;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .activity-time {
+      color: #999;
+      font-size: 0.8rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      color: #dee2e6;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 1024px) {
+      .main-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .sidebar {
+        order: -1;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 0 10px;
+        margin-top: 60px;
+      }
+
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .user-info {
+        text-align: left;
+      }
+
+      .dashboard-title {
+        font-size: 1.5rem;
+      }
+
+      .filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .search-input {
+        width: 100%;
+      }
+
+      .quotes-section {
+        margin: 0;
+      }
+
+      .quote-item {
+        padding: 15px 20px;
+      }
+
+      .quote-actions {
+        flex-wrap: wrap;
+      }
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background: white;
+      margin: 5% auto;
+      padding: 0;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .close {
+      color: white;
+      float: right;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="index.html">
+          <span class="logo-icon">🌟</span>
+          <span class="logo-text">Smile & Sunshine</span>
+        </a>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="sales-dashboard.html" class="nav-link">Orders</a></li>
+        <li><a href="quote-dashboard.html" class="nav-link active">Quotes</a></li>
+        <li><a href="catalog.html" class="nav-link">Products</a></li>
+      </ul>
+      <div class="nav-auth">
+        <a href="login.html" class="nav-link" id="authLink">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="dashboard-container">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+      <div class="header-content">
+        <div>
+          <h1 class="dashboard-title">Quote Management Dashboard</h1>
+          <p class="dashboard-subtitle">Manage custom toy design requests and generate quotes</p>
+        </div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Sales Representative</div>
+          <div class="user-role">Quote Management</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">📋</div>
+        <div class="stat-number" id="totalQuotes">0</div>
+        <div class="stat-label">Total Quotes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-number" id="pendingQuotes">0</div>
+        <div class="stat-label">Pending Review</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-number" id="quotedRequests">0</div>
+        <div class="stat-label">Quotes Sent</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-number" id="acceptedQuotes">0</div>
+        <div class="stat-label">Accepted</div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Quotes List -->
+      <div class="quotes-section">
+        <div class="section-header">
+          <h2 class="section-title">Quote Requests</h2>
+          <div class="filters">
+            <select class="filter-select" id="statusFilter">
+              <option value="">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="in-progress">In Progress</option>
+              <option value="quoted">Quoted</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search quotes...">
+          </div>
+        </div>
+        <div class="quotes-list" id="quotesList">
+          <!-- Quotes will be populated here -->
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Quote Details -->
+        <div class="quote-details" id="quoteDetails">
+          <div class="details-header">
+            <div class="details-title">Select a Quote</div>
+            <div class="details-subtitle">Choose a quote request to view details</div>
+          </div>
+          <div class="details-content">
+            <div class="empty-state">
+              <div class="empty-icon">📋</div>
+              <p>Select a quote request from the list to view and manage details</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="activity-feed">
+          <h3 class="activity-title">Recent Activity</h3>
+          <div id="activityFeed">
+            <!-- Activity items will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Quote Modal -->
+  <div id="quoteModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Generate Quote</h2>
+        <button class="close" onclick="closeQuoteModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="quoteForm" class="quote-form">
+          <div class="form-group">
+            <label class="form-label" for="quotedPrice">Quoted Price ($)</label>
+            <input type="number" class="form-input" id="quotedPrice" min="1" step="0.01" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="productionTime">Production Time (days)</label>
+            <input type="number" class="form-input" id="productionTime" min="1" max="365" value="14" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="quoteNotes">Quote Notes</label>
+            <textarea class="form-textarea" id="quoteNotes" placeholder="Add any special notes or requirements..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="validUntil">Valid Until</label>
+            <input type="date" class="form-input" id="validUntil" required>
+          </div>
+          
+          <button type="submit" class="btn-submit">Send Quote</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    $(document).ready(function() {
+      let selectedQuoteId = null;
+      let quotes = [];
+
+      // Initialize
+      checkAuthentication();
+      loadQuotes();
+      updateStatistics();
+      loadActivity();
+      setupEventListeners();
+      setDefaultValidDate();
+
+      function checkAuthentication() {
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!user || user.role !== 'sales') {
+          // Redirect to login if not sales user
+          window.location.href = 'login.html';
+          return;
+        }
+
+        $('#userName').text(user.name);
+        $('#authLink').text('Logout').attr('href', '#').on('click', function(e) {
+          e.preventDefault();
+          logout();
+        });
+      }
+
+      function setupEventListeners() {
+        // Search and filter
+        $('#searchInput').on('input', filterQuotes);
+        $('#statusFilter').on('change', filterQuotes);
+        
+        // Quote form submission
+        $('#quoteForm').on('submit', handleQuoteSubmission);
+        
+        // Modal close on click outside
+        $(window).on('click', function(event) {
+          if (event.target.id === 'quoteModal') {
+            closeQuoteModal();
+          }
+        });
+      }
+
+      function loadQuotes() {
+        quotes = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
+        displayQuotes(quotes);
+      }
+
+      function displayQuotes(quotesToShow) {
+        const quotesList = $('#quotesList');
+        
+        if (quotesToShow.length === 0) {
+          quotesList.html(`
+            <div class="empty-state">
+              <div class="empty-icon">📋</div>
+              <p>No quote requests found</p>
+            </div>
+          `);
+          return;
+        }
+
+        const quotesHtml = quotesToShow.map(quote => createQuoteItem(quote)).join('');
+        quotesList.html(quotesHtml);
+
+        // Bind click events
+        $('.quote-item').on('click', function() {
+          const quoteId = parseInt($(this).data('quote-id'));
+          selectQuote(quoteId);
+        });
+
+        // Bind action button events
+        $('.btn-review').on('click', function(e) {
+          e.stopPropagation();
+          const quoteId = parseInt($(this).closest('.quote-item').data('quote-id'));
+          updateQuoteStatus(quoteId, 'in-progress');
+        });
+
+        $('.btn-quote').on('click', function(e) {
+          e.stopPropagation();
+          const quoteId = parseInt($(this).closest('.quote-item').data('quote-id'));
+          openQuoteModal(quoteId);
+        });
+
+        $('.btn-reject').on('click', function(e) {
+          e.stopPropagation();
+          const quoteId = parseInt($(this).closest('.quote-item').data('quote-id'));
+          if (confirm('Are you sure you want to reject this quote request?')) {
+            updateQuoteStatus(quoteId, 'rejected');
+          }
+        });
+      }
+
+      function createQuoteItem(quote) {
+        const submittedDate = new Date(quote.submittedAt).toLocaleDateString();
+        const categoryName = quote.category.charAt(0).toUpperCase() + quote.category.slice(1);
+        
+        let actionsHtml = '';
+        switch (quote.status) {
+          case 'pending':
+            actionsHtml = `
+              <button class="btn-action btn-primary btn-review">Start Review</button>
+              <button class="btn-action btn-success btn-quote">Generate Quote</button>
+              <button class="btn-action btn-danger btn-reject">Reject</button>
+            `;
+            break;
+          case 'in-progress':
+            actionsHtml = `
+              <button class="btn-action btn-success btn-quote">Generate Quote</button>
+              <button class="btn-action btn-danger btn-reject">Reject</button>
+            `;
+            break;
+          case 'quoted':
+            actionsHtml = `
+              <button class="btn-action btn-secondary">View Quote</button>
+            `;
+            break;
+        }
+
+        return `
+          <div class="quote-item" data-quote-id="${quote.id}">
+            <div class="quote-header">
+              <div class="quote-info">
+                <div class="quote-name">${quote.name}</div>
+                <div class="quote-meta">
+                  ${categoryName} • ${quote.quantity} units • ${quote.contact.email}
+                </div>
+              </div>
+              <div class="quote-status status-${quote.status}">${quote.status.replace('-', ' ')}</div>
+            </div>
+            <div class="quote-meta" style="margin-top: 8px;">
+              Submitted: ${submittedDate} • Budget: ${quote.budget || 'Not specified'}
+            </div>
+            <div class="quote-actions">
+              ${actionsHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      function selectQuote(quoteId) {
+        selectedQuoteId = quoteId;
+        $('.quote-item').removeClass('selected');
+        $(`.quote-item[data-quote-id="${quoteId}"]`).addClass('selected');
+        
+        const quote = quotes.find(q => q.id === quoteId);
+        if (quote) {
+          displayQuoteDetails(quote);
+        }
+      }
+
+      function displayQuoteDetails(quote) {
+        const detailsContent = $('.quote-details .details-content');
+        const categoryName = quote.category.charAt(0).toUpperCase() + quote.category.slice(1);
+        const submittedDate = new Date(quote.submittedAt).toLocaleDateString();
+        const colors = quote.colors.length > 0 ? quote.colors.join(', ') : 'Not specified';
+        const materials = quote.materials.length > 0 ? quote.materials.join(', ') : 'Not specified';
+
+        const detailsHtml = `
+          <div class="detail-group">
+            <div class="detail-label">Request Details</div>
+            <div class="detail-value">
+              <strong>${quote.name}</strong><br>
+              Category: ${categoryName}<br>
+              Quantity: ${quote.quantity}<br>
+              Budget: ${quote.budget || 'Not specified'}
+            </div>
+          </div>
+
+          <div class="detail-group">
+            <div class="detail-label">Customer Information</div>
+            <div class="detail-value">
+              ${quote.contact.name}<br>
+              ${quote.contact.email}<br>
+              ${quote.contact.phone || 'No phone provided'}
+            </div>
+          </div>
+
+          <div class="detail-group">
+            <div class="detail-label">Design Specifications</div>
+            <div class="detail-value">
+              Size: ${getSizeLabel(quote.size)}<br>
+              Colors: ${colors}<br>
+              Materials: ${materials}
+            </div>
+          </div>
+
+          ${quote.description ? `
+            <div class="detail-group">
+              <div class="detail-label">Description</div>
+              <div class="detail-value">${quote.description}</div>
+            </div>
+          ` : ''}
+
+          ${quote.specialFeatures ? `
+            <div class="detail-group">
+              <div class="detail-label">Special Features</div>
+              <div class="detail-value">${quote.specialFeatures}</div>
+            </div>
+          ` : ''}
+
+          ${quote.files && quote.files.length > 0 ? `
+            <div class="detail-group">
+              <div class="detail-label">Reference Files</div>
+              <div class="detail-value">${quote.files.length} file(s) uploaded</div>
+            </div>
+          ` : ''}
+
+          <div class="detail-group">
+            <div class="detail-label">Timeline</div>
+            <div class="detail-value">
+              Submitted: ${submittedDate}<br>
+              Deadline: ${quote.deadline ? new Date(quote.deadline).toLocaleDateString() : 'Flexible'}
+            </div>
+          </div>
+
+          ${quote.finalPrice ? `
+            <div class="detail-group" style="background: #e8f5e8; padding: 15px; border-radius: 8px;">
+              <div class="detail-label" style="color: #155724;">Quoted Price</div>
+              <div class="detail-value" style="color: #155724; font-size: 1.2rem; font-weight: 700;">
+                $${quote.finalPrice}
+              </div>
+            </div>
+          ` : ''}
+        `;
+
+        $('.quote-details .details-header .details-title').text(quote.name);
+        $('.quote-details .details-header .details-subtitle').text(`Quote #${quote.id} • ${quote.status.replace('-', ' ')}`);
+        detailsContent.html(detailsHtml);
+      }
+
+      function getSizeLabel(size) {
+        const sizeLabels = {
+          1: 'Extra Small (5-10 cm)',
+          2: 'Small (10-15 cm)', 
+          3: 'Medium (15-25 cm)',
+          4: 'Large (25-40 cm)',
+          5: 'Extra Large (40+ cm)'
+        };
+        return sizeLabels[size] || 'Not specified';
+      }
+
+      function filterQuotes() {
+        const searchTerm = $('#searchInput').val().toLowerCase();
+        const statusFilter = $('#statusFilter').val();
+
+        let filteredQuotes = quotes;
+
+        if (searchTerm) {
+          filteredQuotes = filteredQuotes.filter(quote => 
+            quote.name.toLowerCase().includes(searchTerm) ||
+            quote.contact.email.toLowerCase().includes(searchTerm) ||
+            quote.contact.name.toLowerCase().includes(searchTerm) ||
+            quote.category.toLowerCase().includes(searchTerm)
+          );
+        }
+
+        if (statusFilter) {
+          filteredQuotes = filteredQuotes.filter(quote => quote.status === statusFilter);
+        }
+
+        displayQuotes(filteredQuotes);
+      }
+
+      function updateStatistics() {
+        const totalQuotes = quotes.length;
+        const pendingQuotes = quotes.filter(q => q.status === 'pending').length;
+        const quotedRequests = quotes.filter(q => q.status === 'quoted').length;
+        const acceptedQuotes = quotes.filter(q => q.status === 'accepted').length;
+
+        $('#totalQuotes').text(totalQuotes);
+        $('#pendingQuotes').text(pendingQuotes);
+        $('#quotedRequests').text(quotedRequests);
+        $('#acceptedQuotes').text(acceptedQuotes);
+      }
+
+      function updateQuoteStatus(quoteId, newStatus) {
+        const quoteIndex = quotes.findIndex(q => q.id === quoteId);
+        if (quoteIndex !== -1) {
+          quotes[quoteIndex].status = newStatus;
+          quotes[quoteIndex].lastUpdated = new Date().toISOString();
+          
+          // Save to localStorage
+          localStorage.setItem('quoteRequests', JSON.stringify(quotes));
+          
+          // Refresh display
+          loadQuotes();
+          updateStatistics();
+          addActivity(`Quote #${quoteId} status updated to ${newStatus.replace('-', ' ')}`);
+          
+          showNotification(`Quote status updated to ${newStatus.replace('-', ' ')}`, 'success');
+        }
+      }
+
+      function openQuoteModal(quoteId) {
+        selectedQuoteId = quoteId;
+        const quote = quotes.find(q => q.id === quoteId);
+        
+        if (quote) {
+          $('#modalTitle').text(`Generate Quote - ${quote.name}`);
+          
+          // Pre-fill with estimated price if available
+          if (quote.estimatedPrice) {
+            const priceMatch = quote.estimatedPrice.match(/\$(\d+)/);
+            if (priceMatch) {
+              $('#quotedPrice').val(priceMatch[1]);
+            }
+          }
+          
+          $('#quoteModal').show();
+        }
+      }
+
+      function closeQuoteModal() {
+        $('#quoteModal').hide();
+        $('#quoteForm')[0].reset();
+        setDefaultValidDate();
+      }
+
+      function setDefaultValidDate() {
+        const today = new Date();
+        const validUntil = new Date(today.getTime() + (30 * 24 * 60 * 60 * 1000)); // 30 days from today
+        $('#validUntil').val(validUntil.toISOString().split('T')[0]);
+      }
+
+      function handleQuoteSubmission(e) {
+        e.preventDefault();
+        
+        if (!selectedQuoteId) return;
+
+        const quoteData = {
+          finalPrice: $('#quotedPrice').val(),
+          productionTime: $('#productionTime').val(),
+          quoteNotes: $('#quoteNotes').val(),
+          validUntil: $('#validUntil').val(),
+          quotedAt: new Date().toISOString()
+        };
+
+        // Update quote with pricing information
+        const quoteIndex = quotes.findIndex(q => q.id === selectedQuoteId);
+        if (quoteIndex !== -1) {
+          Object.assign(quotes[quoteIndex], quoteData);
+          quotes[quoteIndex].status = 'quoted';
+          quotes[quoteIndex].lastUpdated = new Date().toISOString();
+          
+          // Save to localStorage
+          localStorage.setItem('quoteRequests', JSON.stringify(quotes));
+          
+          // Refresh display
+          loadQuotes();
+          updateStatistics();
+          addActivity(`Quote generated for request #${selectedQuoteId} - $${quoteData.finalPrice}`);
+          
+          showNotification('Quote sent successfully!', 'success');
+          closeQuoteModal();
+          
+          // Refresh details if this quote is selected
+          if (selectedQuoteId) {
+            const updatedQuote = quotes.find(q => q.id === selectedQuoteId);
+            if (updatedQuote) {
+              displayQuoteDetails(updatedQuote);
+            }
+          }
+        }
+      }
+
+      function loadActivity() {
+        // Load recent activity from localStorage or generate demo data
+        const activity = JSON.parse(localStorage.getItem('quoteActivity') || '[]');
+        
+        if (activity.length === 0) {
+          // Generate some demo activity
+          const demoActivity = [
+            { text: 'New quote request submitted', time: new Date(Date.now() - 2 * 60 * 60 * 1000) },
+            { text: 'Quote #1700000001 sent to customer', time: new Date(Date.now() - 4 * 60 * 60 * 1000) },
+            { text: 'Customer accepted quote #1700000002', time: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) }
+          ];
+          localStorage.setItem('quoteActivity', JSON.stringify(demoActivity));
+          displayActivity(demoActivity);
+        } else {
+          displayActivity(activity);
+        }
+      }
+
+      function addActivity(text) {
+        const activity = JSON.parse(localStorage.getItem('quoteActivity') || '[]');
+        activity.unshift({
+          text: text,
+          time: new Date()
+        });
+        
+        // Keep only last 20 activities
+        if (activity.length > 20) {
+          activity.splice(20);
+        }
+        
+        localStorage.setItem('quoteActivity', JSON.stringify(activity));
+        displayActivity(activity);
+      }
+
+      function displayActivity(activities) {
+        const activityFeed = $('#activityFeed');
+        
+        if (activities.length === 0) {
+          activityFeed.html('<div class="empty-state"><p>No recent activity</p></div>');
+          return;
+        }
+
+        const activityHtml = activities.slice(0, 5).map(activity => `
+          <div class="activity-item">
+            <div class="activity-icon">💼</div>
+            <div class="activity-content">
+              <div class="activity-text">${activity.text}</div>
+              <div class="activity-time">${formatRelativeTime(new Date(activity.time))}</div>
+            </div>
+          </div>
+        `).join('');
+
+        activityFeed.html(activityHtml);
+      }
+
+      function formatRelativeTime(date) {
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMs / 3600000);
+        const diffDays = Math.floor(diffMs / 86400000);
+
+        if (diffMins < 60) {
+          return diffMins <= 1 ? 'Just now' : `${diffMins} minutes ago`;
+        } else if (diffHours < 24) {
+          return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        } else {
+          return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+        }
+      }
+
+      function showNotification(message, type = 'info') {
+        const notification = $(`
+          <div class="notification notification-${type}" style="
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 10000;
+            max-width: 400px;
+          ">
+            ${message}
+          </div>
+        `);
+
+        $('body').append(notification);
+
+        setTimeout(() => {
+          notification.fadeOut(300, function() {
+            $(this).remove();
+          });
+        }, 3000);
+      }
+
+      function logout() {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+      }
+
+      // Global function for modal close
+      window.closeQuoteModal = closeQuoteModal;
+
+      // Generate demo data if none exists
+      if (quotes.length === 0) {
+        generateDemoQuotes();
+      }
+
+      function generateDemoQuotes() {
+        const demoQuotes = [
+          {
+            id: Date.now() - 1000,
+            name: 'Custom Teddy Bear',
+            category: 'plush',
+            description: 'A soft teddy bear with custom embroidering',
+            size: 3,
+            colors: ['brown', 'red'],
+            materials: ['cotton'],
+            quantity: 1,
+            budget: '50-100',
+            contact: {
+              name: 'Alice Johnson',
+              email: 'alice@example.com',
+              phone: '555-0123'
+            },
+            status: 'pending',
+            submittedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+            deadline: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+            files: []
+          },
+          {
+            id: Date.now() - 2000,
+            name: 'Robot Action Figure',
+            category: 'action',
+            description: 'Poseable robot with LED lights',
+            size: 4,
+            colors: ['blue', 'silver'],
+            materials: ['abs'],
+            quantity: 2,
+            budget: '100-250',
+            contact: {
+              name: 'Bob Smith',
+              email: 'bob@example.com',
+              phone: '555-0456'
+            },
+            status: 'in-progress',
+            submittedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+            lastUpdated: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+            files: []
+          }
+        ];
+
+        localStorage.setItem('quoteRequests', JSON.stringify(demoQuotes));
+        quotes = demoQuotes;
+        displayQuotes(quotes);
+        updateStatistics();
+      }
+    });
+  </script>
+</body>
+</html>

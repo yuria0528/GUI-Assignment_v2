@@ -1,0 +1,7 @@
+# USERS.TXT - pre-created usernames and passwords for demo (front-end prototype)
+# Format: role | username | email | password | extra
+customer | alice01 | alice@example.com | Password123! | name: Alice Lee, phone: 9123-4567
+customer | bob02   | bob@example.com   | Secret456!     | name: Bob Chan, phone: 9123-8901
+sales    | sales01 | sales1@sstoys.com | SalesPass789!  | name: Chan Manager, staffNo: S001
+sales    | sales02 | sales2@sstoys.com | SalesPass321!  | name: Lee Support, staffNo: S002
+admin    | admin   | admin@sstoys.com  | AdminPass!2025  | full permissions

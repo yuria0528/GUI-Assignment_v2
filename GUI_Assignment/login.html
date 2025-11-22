@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login - Smile & Sunshine Toys</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 450px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .login-header h1 {
+      color: var(--primary);
+      font-size: 2.2em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .login-header .subtitle {
+      color: #666;
+      font-size: 1.1em;
+      margin-bottom: 0;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: #fafafa;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      background: white;
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 10px 0 20px 0;
+    }
+    
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .login-btn:active {
+      transform: translateY(0);
+    }
+    
+    .divider {
+      text-align: center;
+      margin: 25px 0;
+      position: relative;
+      color: #666;
+    }
+    
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e1e5e9;
+      z-index: 1;
+    }
+    
+    .divider span {
+      background: white;
+      padding: 0 15px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .register-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .register-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    
+    .register-link a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+    
+    .test-info {
+      margin: 30px 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+      border: 2px solid #e3f2fd;
+      border-radius: 12px;
+    }
+    
+    .test-info h4 {
+      color: var(--primary);
+      margin: 0 0 20px 0;
+      font-size: 1.1em;
+      text-align: center;
+    }
+    
+    .account-section {
+      margin-bottom: 20px;
+    }
+    
+    .account-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .account-section h5 {
+      color: #333;
+      margin: 0 0 12px 0;
+      font-size: 0.95em;
+      font-weight: 600;
+      border-bottom: 1px solid #dee2e6;
+      padding-bottom: 5px;
+    }
+    
+    .account-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      margin-bottom: 8px;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .account-item:hover {
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+    }
+    
+    .account-info {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .account-info strong {
+      color: #333;
+      font-size: 0.9em;
+    }
+    
+    .account-info .password {
+      color: #666;
+      font-family: monospace;
+      font-size: 0.85em;
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 2px;
+    }
+    
+    .account-info small {
+      color: #999;
+      font-size: 0.8em;
+      margin-top: 2px;
+    }
+    
+    .quick-fill {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+    
+    .quick-fill:hover {
+      background: #5a67d8;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+    
+    .test-info p {
+      margin: 0;
+      font-size: 13px;
+      color: #666;
+    }
+    
+    .role-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    
+    .role-option {
+      position: relative;
+    }
+    
+    .role-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      cursor: pointer;
+    }
+    
+    .role-option label {
+      display: block;
+      padding: 12px;
+      background: #f8f9fa;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0;
+      font-weight: 500;
+    }
+    
+    .role-option input[type="radio"]:checked + label {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .role-option input[type="radio"]:focus + label {
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+        margin: 10px;
+      }
+      
+      .login-header h1 {
+        font-size: 1.8em;
+      }
+      
+      .account-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .quick-fill {
+        margin-left: 0;
+        align-self: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container fade-in">
+    <div class="login-header">
+      <h1>🧸 Welcome Back!</h1>
+      <p class="subtitle">Sign in to Smile & Sunshine Toys</p>
+    </div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginEmail">📧 Email Address</label>
+        <input type="email" id="loginEmail" placeholder="Enter your email" required />
+      </div>
+      
+      <div class="form-group">
+        <label for="loginPassword">🔒 Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" required />
+      </div>
+      
+      <div class="form-group">
+        <label>👤 Login As</label>
+        <div class="role-selector">
+          <div class="role-option">
+            <input type="radio" id="customer" name="role" value="customer" checked>
+            <label for="customer">Customer</label>
+          </div>
+          <div class="role-option">
+            <input type="radio" id="sales" name="role" value="sales">
+            <label for="sales">Sales Staff</label>
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit" class="login-btn">Sign In</button>
+    </form>
+
+    <div class="test-info">
+      <h4>🔧 Demo Accounts Available</h4>
+      
+      <div class="account-section">
+        <h5>👥 Customer Accounts:</h5>
+        <div class="account-item">
+          <div class="account-info">
+            <strong>alice@example.com</strong>
+            <span class="password">Password123!</span>
+            <small>Alice Lee - Regular Customer</small>
+          </div>
+          <button class="quick-fill" onclick="fillAccount('alice@example.com', 'Password123!', 'customer')">Use This Account</button>
+        </div>
+        <div class="account-item">
+          <div class="account-info">
+            <strong>bob@example.com</strong>
+            <span class="password">Secret456!</span>
+            <small>Bob Chan - Regular Customer</small>
+          </div>
+          <button class="quick-fill" onclick="fillAccount('bob@example.com', 'Secret456!', 'customer')">Use This Account</button>
+        </div>
+      </div>
+
+      <div class="account-section">
+        <h5>👔 Sales Staff Accounts:</h5>
+        <div class="account-item">
+          <div class="account-info">
+            <strong>sales1@sstoys.com</strong>
+            <span class="password">SalesPass789!</span>
+            <small>Chan Manager - Sales Manager</small>
+          </div>
+          <button class="quick-fill" onclick="fillAccount('sales1@sstoys.com', 'SalesPass789!', 'sales')">Use This Account</button>
+        </div>
+        <div class="account-item">
+          <div class="account-info">
+            <strong>sales2@sstoys.com</strong>
+            <span class="password">SalesPass321!</span>
+            <small>Lee Support - Sales Support</small>
+          </div>
+          <button class="quick-fill" onclick="fillAccount('sales2@sstoys.com', 'SalesPass321!', 'sales')">Use This Account</button>
+        </div>
+      </div>
+
+      <div class="account-section">
+        <h5>⚙️ Admin Account:</h5>
+        <div class="account-item">
+          <div class="account-info">
+            <strong>admin@sstoys.com</strong>
+            <span class="password">AdminPass!2025</span>
+            <small>System Administrator</small>
+          </div>
+          <button class="quick-fill" onclick="fillAccount('admin@sstoys.com', 'AdminPass!2025', 'sales')">Use This Account</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">
+      <span>New to our store?</span>
+    </div>
+    
+    <div class="register-link">
+      <a href="register.html">Create Account →</a>
+    </div>
+    
+    <div id="loginMsg" class="msg"></div>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    // Quick fill function for demo accounts
+    function fillAccount(email, password, role) {
+      $('#loginEmail').val(email);
+      $('#loginPassword').val(password);
+      $(`input[name="role"][value="${role}"]`).prop('checked', true);
+      
+      // Clear any previous messages
+      $('#loginMsg').html('');
+      
+      // Add visual feedback
+      $('.login-container').addClass('shake');
+      
+      // Highlight filled fields briefly
+      $('#loginEmail, #loginPassword').css('background-color', '#e8f5e8');
+      
+      setTimeout(() => {
+        $('.login-container').removeClass('shake');
+        $('#loginEmail, #loginPassword').css('background-color', '');
+      }, 500);
+      
+      // Show helpful message
+      setTimeout(() => {
+        $('#loginMsg').html('<span style="color: #17a2b8;">📋 Account details filled! Click "Sign In" to login.</span>');
+      }, 600);
+    }
+    
+    // Enhanced form handling for the new radio button role selector
+    $('#loginForm').on('submit', function(e) {
+      e.preventDefault();
+      
+      const email = $('#loginEmail').val().trim();
+      const password = $('#loginPassword').val();
+      const role = $('input[name="role"]:checked').val();
+      
+      // Use the existing login logic from app.js
+      const demoUsers = [
+        { role: "customer", username: "alice01", email: "alice@example.com", password: "Password123!", name: "Alice Lee", phone: "9123-4567" },
+        { role: "customer", username: "bob02", email: "bob@example.com", password: "Secret456!", name: "Bob Chan", phone: "9123-8901" },
+        { role: "sales", username: "sales01", email: "sales1@sstoys.com", password: "SalesPass789!", name: "Chan Manager", staffNo: "S001" },
+        { role: "sales", username: "sales02", email: "sales2@sstoys.com", password: "SalesPass321!", name: "Lee Support", staffNo: "S002" },
+        { role: "sales", username: "admin", email: "admin@sstoys.com", password: "AdminPass!2025", name: "System Admin", staffNo: "A001" }
+      ];
+      
+      const user = demoUsers.find(u => u.email === email && u.password === password && u.role === role);
+      const $msg = $("#loginMsg");
+      
+      if (user) {
+        // Show loading state
+        $('.login-container').addClass('loading');
+        $('.login-btn').addClass('loading').text('Signing in...');
+        
+        // Save user to localStorage
+        localStorage.setItem('ss_user_v1', JSON.stringify(user));
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        
+        $msg.html('<span style="color: #28a745;">✅ Login successful! Redirecting...</span>');
+        
+        // Redirect based on role
+        setTimeout(() => {
+          if (user.role === 'sales' || user.role === 'admin') {
+            window.location.href = 'sales-dashboard.html';
+          } else {
+            window.location.href = 'index.html';
+          }
+        }, 1000);
+      } else {
+        $msg.html('<span style="color: #dc3545;">❌ Invalid credentials. Please check your email, password, and role selection.</span>');
+        
+        // Add shake animation to form
+        $('.login-container').addClass('error-shake');
+        setTimeout(() => {
+          $('.login-container').removeClass('error-shake');
+        }, 600);
+      }
+    });
+    
+    // Add smooth animations
+    $(document).ready(function() {
+      $('.login-container').addClass('fade-in');
+      
+      // Add shake animation for quick fill and error states
+      $('<style>').text(`
+        .shake {
+          animation: shake 0.5s ease-in-out;
+        }
+        
+        .error-shake {
+          animation: error-shake 0.6s ease-in-out;
+        }
+        
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          75% { transform: translateX(5px); }
+        }
+        
+        @keyframes error-shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+          20%, 40%, 60%, 80% { transform: translateX(3px); }
+        }
+        
+        #loginMsg {
+          margin-top: 15px;
+          padding: 10px;
+          border-radius: 8px;
+          text-align: center;
+          font-weight: 500;
+          min-height: 20px;
+          transition: all 0.3s ease;
+        }
+        
+        .loading {
+          opacity: 0.7;
+          pointer-events: none;
+        }
+        
+        .login-btn.loading {
+          background: #ccc;
+          cursor: not-allowed;
+        }
+        
+        .login-btn.loading::after {
+          content: '';
+          width: 16px;
+          height: 16px;
+          margin-left: 10px;
+          border: 2px solid transparent;
+          border-top: 2px solid #fff;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          display: inline-block;
+        }
+        
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `).appendTo('head');
+      
+      // Add focus animation to form fields
+      $('input, select').on('focus', function() {
+        $(this).parent().addClass('focused');
+      }).on('blur', function() {
+        $(this).parent().removeClass('focused');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wishlist - Smile & Sunshine Toys</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    /* Oriental Traffic inspired wishlist styles */
+    body {
+      background: #ffffff;
+      color: #333;
+      padding: 0;
+    }
+    
+    .top-banner {
+      background: #f8f8f8;
+      padding: 8px 0;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .main-header {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+    
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #333;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .main-nav {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .main-nav a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 10px 0;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .cart-icon {
+      position: relative;
+      color: #333;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ff4757;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .page-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 60px 0 40px 0;
+      text-align: center;
+    }
+    
+    .page-title {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .page-subtitle {
+      font-size: 18px;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .wishlist-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    
+    .wishlist-stats {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: #667eea;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .wishlist-items {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    
+    .wishlist-header {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 20px 25px;
+      border-bottom: 1px solid #dee2e6;
+    }
+    
+    .wishlist-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+    
+    .wishlist-content {
+      padding: 25px;
+    }
+    
+    .wishlist-item {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+      border: 1px solid #e9ecef;
+    }
+    
+    .wishlist-item:hover {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    
+    .item-image {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: white;
+    }
+    
+    .item-details {
+      flex: 1;
+    }
+    
+    .item-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    
+    .item-specs {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    
+    .item-price {
+      font-size: 20px;
+      font-weight: 700;
+      color: #667eea;
+    }
+    
+    .item-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    
+    .item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .qty-btn {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #667eea;
+      background: white;
+      color: #667eea;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .qty-btn:hover {
+      background: #667eea;
+      color: white;
+    }
+    
+    .qty-display {
+      width: 40px;
+      text-align: center;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .remove-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .remove-btn:hover {
+      background: #c82333;
+      transform: translateY(-1px);
+    }
+    
+    .checkout-section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .checkout-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .checkout-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .checkout-subtitle {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .payment-form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .form-select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      background: white;
+    }
+    
+    .form-select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+    }
+    
+    .submit-btn:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .empty-wishlist {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+    
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+    
+    .empty-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    
+    .empty-text {
+      font-size: 16px;
+      margin-bottom: 30px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .shop-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .shop-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+      .wishlist-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+      
+      .item-actions {
+        align-items: center;
+      }
+      
+      .wishlist-stats {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Banner -->
+  <div class="top-banner">
+    💝 Items in Wishlist | 🚚 Free Delivery on Orders Over $500 | 📞 Customer Service: 1-800-TOYS
+  </div>
+
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        🧸 Smile & Sunshine
+      </a>
+      
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="catalog.html">Products</a>
+        <a href="wishlist.html" class="active">Wishlist</a>
+        <a href="order-status.html">Orders</a>
+        <a href="sales-dashboard.html">Dashboard</a>
+      </nav>
+      
+      <div class="header-actions">
+        <a href="wishlist.html" class="cart-icon">
+          🛒 <span class="cart-badge">0</span>
+        </a>
+        <a href="login.html" style="color: #667eea; text-decoration: none; font-weight: 600;">Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <h1 class="page-title">Your Wishlist</h1>
+    <p class="page-subtitle">Review and customize your selected items before submitting your purchase request</p>
+  </section>
+
+  <!-- Main Content -->
+  <main class="wishlist-container">
+    <!-- Wishlist Stats -->
+    <div class="wishlist-stats">
+      <div class="stat-item">
+        <div class="stat-number" id="itemCount">0</div>
+        <div class="stat-label">Items</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="totalValue">$0</div>
+        <div class="stat-label">Total Value</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="customizations">0</div>
+        <div class="stat-label">Customizations</div>
+      </div>
+    </div>
+
+    <!-- Wishlist Items -->
+    <div class="wishlist-items">
+      <div class="wishlist-header">
+        <h2 class="wishlist-title">🛒 Selected Items</h2>
+      </div>
+      <div class="wishlist-content">
+        <div id="wishlistContainer">
+          <!-- Empty state -->
+          <div class="empty-wishlist" id="emptyState">
+            <div class="empty-icon">🛒</div>
+            <h3 class="empty-title">Your Wishlist is Empty</h3>
+            <p class="empty-text">Browse our amazing collection and add your favorite customizable toys to get started!</p>
+            <a href="catalog.html" class="shop-btn">Start Shopping</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkout Section -->
+    <div class="checkout-section" id="checkoutSection" style="display: none;">
+      <div class="checkout-header">
+        <h3 class="checkout-title">💳 Submit Purchase Request</h3>
+        <p class="checkout-subtitle">Choose your preferred payment method to complete your order</p>
+      </div>
+      
+      <form id="submitRequestForm" class="payment-form">
+        <div class="form-group">
+          <label class="form-label">💰 Preferred Payment Method</label>
+          <select id="paymentMethod" class="form-select" required>
+            <option value="">Select payment method...</option>
+            <option value="paynow">💱 PayNow / FPS</option>
+            <option value="bank">🏦 Bank Transfer</option>
+            <option value="credit">💳 Credit Card</option>
+            <option value="paypal">🅿️ PayPal</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn" disabled>🚀 Submit Purchase Request</button>
+      </form>
+    </div>
+    
+    <div id="wishMsg" class="msg"></div>
+  </main>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    // Enhanced wishlist functionality
+    $(document).ready(function() {
+      function updateStats() {
+        const items = $('#wishlistContainer .wishlist-item').length;
+        const hasItems = items > 0;
+        
+        $('#itemCount').text(items);
+        $('#customizations').text(items);
+        
+        // Show/hide sections based on items
+        if (hasItems) {
+          $('#emptyState').hide();
+          $('#checkoutSection').show();
+          $('#submitBtn').prop('disabled', false);
+        } else {
+          $('#emptyState').show();
+          $('#checkoutSection').hide();
+        }
+        
+        // Update cart badge
+        $('.cart-badge').text(items);
+      }
+      
+      // Enable submit button when payment method is selected
+      $('#paymentMethod').on('change', function() {
+        $('#submitBtn').prop('disabled', !$(this).val());
+      });
+      
+      // Call updateStats initially
+      updateStats();
+      
+      // Update stats when wishlist changes
+      const observer = new MutationObserver(updateStats);
+      observer.observe(document.getElementById('wishlistContainer'), {
+        childList: true,
+        subtree: true
+      });
+    });
+  </script>
+</body>
+</html>

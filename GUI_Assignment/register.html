@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Create Account - Smile & Sunshine Toys</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    /* Oriental Traffic inspired registration styles */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .register-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 480px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .register-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .register-header h1 {
+      color: var(--primary);
+      font-size: 2.2em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .register-header .subtitle {
+      color: #666;
+      font-size: 1.1em;
+      margin-bottom: 0;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: #fafafa;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      background: white;
+    }
+    
+    .form-group input[type="checkbox"] {
+      width: auto;
+      margin-right: 8px;
+      transform: scale(1.2);
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border: 2px solid #e1e5e9;
+      transition: all 0.3s ease;
+    }
+    
+    .checkbox-group:has(input:checked) {
+      border-color: var(--primary);
+      background: rgba(102, 126, 234, 0.05);
+    }
+    
+    .checkbox-group label {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+    
+    .checkbox-group a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .checkbox-group a:hover {
+      text-decoration: underline;
+    }
+    
+    .register-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 20px 0;
+    }
+    
+    .register-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .register-btn:active {
+      transform: translateY(0);
+    }
+    
+    .register-btn:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .divider {
+      text-align: center;
+      margin: 25px 0;
+      position: relative;
+      color: #666;
+    }
+    
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e1e5e9;
+      z-index: 1;
+    }
+    
+    .divider span {
+      background: white;
+      padding: 0 15px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .login-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    
+    .login-link a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+    
+    .benefits-info {
+      background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 25px 0;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .benefits-info h4 {
+      color: var(--primary);
+      margin: 0 0 12px 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .benefits-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .benefits-list li {
+      margin: 8px 0;
+      font-size: 13px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .benefits-list li::before {
+      content: '✓';
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 14px;
+    }
+    
+    .strength-indicator {
+      margin-top: 8px;
+      height: 4px;
+      background: #e1e5e9;
+      border-radius: 2px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .strength-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #dc3545, #ffc107, #28a745);
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    
+    .strength-text {
+      font-size: 12px;
+      margin-top: 4px;
+      color: #666;
+    }
+    
+    .input-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      font-size: 18px;
+      pointer-events: none;
+    }
+    
+    .form-group.has-icon input {
+      padding-right: 50px;
+    }
+    
+    @media (max-width: 480px) {
+      .register-container {
+        padding: 30px 20px;
+        margin: 10px;
+      }
+      
+      .register-header h1 {
+        font-size: 1.8em;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container fade-in">
+    <div class="register-header">
+      <h1>🧸 Join Our Family!</h1>
+      <p class="subtitle">Create your Smile & Sunshine account</p>
+    </div>
+
+    <form id="registerForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="regName">👤 First Name</label>
+          <input type="text" id="regFirstName" placeholder="Enter your first name" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="regLastName">👥 Last Name</label>
+          <input type="text" id="regLastName" placeholder="Enter your last name" required />
+        </div>
+      </div>
+      
+      <div class="form-group full-width has-icon">
+        <label for="regEmail">📧 Email Address</label>
+        <input type="email" id="regEmail" placeholder="Enter your email address" required />
+        <span class="input-icon">@</span>
+      </div>
+      
+      <div class="form-group full-width has-icon">
+        <label for="regPhone">📱 Phone Number</label>
+        <input type="tel" id="regPhone" placeholder="+852 1234 5678" required pattern="[0-9\-\+ ]+" />
+        <span class="input-icon">📞</span>
+      </div>
+      
+      <div class="form-group full-width has-icon">
+        <label for="regPassword">🔒 Password</label>
+        <input type="password" id="regPassword" placeholder="Create a strong password" required minlength="6" />
+        <span class="input-icon">👁️</span>
+        <div class="strength-indicator">
+          <div class="strength-bar" id="strengthBar"></div>
+        </div>
+        <div class="strength-text" id="strengthText">Password strength: Weak</div>
+      </div>
+      
+      <div class="form-group full-width">
+        <div class="checkbox-group">
+          <input type="checkbox" id="agreeTerms" required />
+          <label for="agreeTerms">
+            I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>
+          </label>
+        </div>
+      </div>
+      
+      <div class="form-group full-width">
+        <div class="checkbox-group" style="border: none; background: transparent; padding: 10px 0;">
+          <input type="checkbox" id="newsletter" />
+          <label for="newsletter">
+            📬 Subscribe to our newsletter for exclusive offers and new product updates
+          </label>
+        </div>
+      </div>
+      
+      <button type="submit" class="register-btn" id="submitBtn" disabled>Create My Account</button>
+    </form>
+
+    <div class="benefits-info">
+      <h4>🎁 Account Benefits</h4>
+      <ul class="benefits-list">
+        <li>Exclusive access to new toy collections</li>
+        <li>Priority customer support and faster processing</li>
+        <li>Personalized product recommendations</li>
+        <li>Special member discounts and promotions</li>
+        <li>Order history and easy reordering</li>
+      </ul>
+    </div>
+
+    <div class="divider">
+      <span>Already have an account?</span>
+    </div>
+    
+    <div class="login-link">
+      <a href="login.html">Sign In →</a>
+    </div>
+    
+    <div id="regMsg" class="msg"></div>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    // Enhanced registration functionality
+    $(document).ready(function() {
+      // Password strength indicator
+      $('#regPassword').on('input', function() {
+        const password = $(this).val();
+        const strength = calculatePasswordStrength(password);
+        
+        $('#strengthBar').css('width', strength.percentage + '%');
+        $('#strengthText').text('Password strength: ' + strength.text);
+        
+        if (strength.score >= 3) {
+          $('#strengthBar').css('background', '#28a745');
+        } else if (strength.score >= 2) {
+          $('#strengthBar').css('background', '#ffc107');
+        } else {
+          $('#strengthBar').css('background', '#dc3545');
+        }
+      });
+      
+      function calculatePasswordStrength(password) {
+        let score = 0;
+        let text = 'Very Weak';
+        
+        if (password.length >= 6) score++;
+        if (password.length >= 8) score++;
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
+        if (/\d/.test(password)) score++;
+        if (/[^\w\s]/.test(password)) score++;
+        
+        switch (score) {
+          case 0:
+          case 1:
+            text = 'Very Weak';
+            break;
+          case 2:
+            text = 'Weak';
+            break;
+          case 3:
+            text = 'Good';
+            break;
+          case 4:
+            text = 'Strong';
+            break;
+          case 5:
+            text = 'Very Strong';
+            break;
+        }
+        
+        return {
+          score: score,
+          text: text,
+          percentage: (score / 5) * 100
+        };
+      }
+      
+    });

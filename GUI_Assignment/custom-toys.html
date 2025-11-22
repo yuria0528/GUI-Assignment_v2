@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Toy Design - Smile & Sunshine Toys</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .custom-toy-container {
+      max-width: 1200px;
+      margin: 100px auto 40px;
+      padding: 0 20px;
+    }
+
+    .design-wizard {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .wizard-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .wizard-title {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .wizard-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .wizard-steps {
+      display: flex;
+      background: #f8f9fa;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .step-item {
+      flex: 1;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .step-item.active {
+      background: white;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .step-item.completed {
+      background: #e8f5e8;
+      color: #28a745;
+    }
+
+    .step-number {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #dee2e6;
+      line-height: 30px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .step-item.active .step-number {
+      background: #667eea;
+      color: white;
+    }
+
+    .step-item.completed .step-number {
+      background: #28a745;
+      color: white;
+    }
+
+    .wizard-content {
+      padding: 40px;
+    }
+
+    .step-content {
+      display: none;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .step-content.active {
+      display: block;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .toy-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .category-card {
+      border: 2px solid #dee2e6;
+      border-radius: 15px;
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .category-card:hover {
+      border-color: #667eea;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+    }
+
+    .category-card.selected {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .category-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .category-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .category-desc {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #333;
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #dee2e6;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .color-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .color-option {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+      border-color: #333;
+    }
+
+    .color-option.selected {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+    }
+
+    .color-option::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .color-option.selected::after {
+      opacity: 1;
+    }
+
+    .material-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .material-card {
+      border: 2px solid #dee2e6;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .material-card:hover {
+      border-color: #667eea;
+    }
+
+    .material-card.selected {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .size-slider {
+      margin-top: 20px;
+    }
+
+    .slider {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #dee2e6;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+      border: none;
+    }
+
+    .size-display {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    .upload-area {
+      border: 2px dashed #dee2e6;
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fafafa;
+    }
+
+    .upload-area:hover {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .upload-area.dragover {
+      border-color: #667eea;
+      background: #f8f9ff;
+      transform: scale(1.02);
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      color: #999;
+      margin-bottom: 15px;
+    }
+
+    .upload-text {
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .upload-hint {
+      font-size: 0.9rem;
+      color: #999;
+    }
+
+    .preview-area {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .preview-images {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    .preview-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .preview-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .preview-remove {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      color: #dc3545;
+    }
+
+    .wizard-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px solid #f0f0f0;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #666;
+      border: 2px solid #dee2e6;
+    }
+
+    .btn-secondary:hover {
+      background: #e9ecef;
+      border-color: #adb5bd;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .summary-section {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    .summary-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .summary-item {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #dee2e6;
+    }
+
+    .summary-label {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .summary-value {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .price-estimate {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .price-label {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    .price-amount {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .price-note {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .responsive-design {
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .custom-toy-container {
+        margin-top: 80px;
+        padding: 0 10px;
+      }
+
+      .wizard-header {
+        padding: 20px;
+      }
+
+      .wizard-title {
+        font-size: 1.8rem;
+      }
+
+      .wizard-content {
+        padding: 20px;
+      }
+
+      .wizard-steps {
+        flex-direction: column;
+      }
+
+      .step-item {
+        padding: 15px;
+      }
+
+      .toy-categories {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .color-palette {
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+      }
+
+      .color-option {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="index.html">
+          <span class="logo-icon">🌟</span>
+          <span class="logo-text">Smile & Sunshine</span>
+        </a>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="catalog.html" class="nav-link">Catalog</a></li>
+        <li><a href="custom-toys.html" class="nav-link active">Custom Design</a></li>
+        <li><a href="quote-requests.html" class="nav-link">My Quotes</a></li>
+        <li><a href="wishlist.html" class="nav-link">Wishlist</a></li>
+        <li><a href="order-status.html" class="nav-link">Orders</a></li>
+      </ul>
+      <div class="nav-auth">
+        <a href="login.html" class="nav-link" id="authLink">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="custom-toy-container">
+    <div class="design-wizard">
+      <!-- Wizard Header -->
+      <div class="wizard-header">
+        <h1 class="wizard-title">Custom Toy Designer</h1>
+        <p class="wizard-subtitle">Create your perfect toy with our professional design service</p>
+      </div>
+
+      <!-- Progress Steps -->
+      <ol class="wizard-steps">
+        <li class="step-item active" data-step="1">
+          <div class="step-number">1</div>
+          <div class="step-title">Category</div>
+        </li>
+        <li class="step-item" data-step="2">
+          <div class="step-number">2</div>
+          <div class="step-title">Design</div>
+        </li>
+        <li class="step-item" data-step="3">
+          <div class="step-number">3</div>
+          <div class="step-title">Details</div>
+        </li>
+        <li class="step-item" data-step="4">
+          <div class="step-number">4</div>
+          <div class="step-title">Review</div>
+        </li>
+      </ol>
+
+      <!-- Wizard Content -->
+      <div class="wizard-content">
+        <!-- Step 1: Category Selection -->
+        <div class="step-content active" data-step="1">
+          <h2 class="section-title">Choose Toy Category</h2>
+          <p>Select the type of toy you'd like to customize. Each category offers different design options and materials.</p>
+          
+          <div class="toy-categories">
+            <div class="category-card" data-category="plush">
+              <div class="category-icon">🧸</div>
+              <div class="category-name">Plush Toys</div>
+              <div class="category-desc">Soft and cuddly stuffed animals and characters</div>
+            </div>
+            <div class="category-card" data-category="action">
+              <div class="category-icon">🤖</div>
+              <div class="category-name">Action Figures</div>
+              <div class="category-desc">Poseable figures with custom designs</div>
+            </div>
+            <div class="category-card" data-category="educational">
+              <div class="category-icon">🧩</div>
+              <div class="category-name">Educational Toys</div>
+              <div class="category-desc">Learning toys and puzzles</div>
+            </div>
+            <div class="category-card" data-category="vehicles">
+              <div class="category-icon">🚗</div>
+              <div class="category-name">Vehicles</div>
+              <div class="category-desc">Cars, trains, and aircraft</div>
+            </div>
+            <div class="category-card" data-category="dolls">
+              <div class="category-icon">👶</div>
+              <div class="category-name">Dolls</div>
+              <div class="category-desc">Custom dolls and accessories</div>
+            </div>
+            <div class="category-card" data-category="building">
+              <div class="category-icon">🏗️</div>
+              <div class="category-name">Building Sets</div>
+              <div class="category-desc">Custom blocks and construction sets</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Design Customization -->
+        <div class="step-content" data-step="2">
+          <h2 class="section-title">Design Your Toy</h2>
+          
+          <div class="form-section">
+            <h3 class="section-title">Basic Information</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="toyName">Toy Name *</label>
+                <input type="text" class="form-input" id="toyName" placeholder="Enter your toy's name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="toyDescription">Description</label>
+                <textarea class="form-textarea" id="toyDescription" placeholder="Describe your toy concept..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Size & Dimensions</h3>
+            <div class="form-group">
+              <label class="form-label">Size Category</label>
+              <div class="size-slider">
+                <input type="range" class="slider" id="sizeSlider" min="1" max="5" value="3">
+                <div class="size-display" id="sizeDisplay">Medium (15-25 cm)</div>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="customWidth">Custom Width (cm)</label>
+                <input type="number" class="form-input" id="customWidth" placeholder="Width" min="1" max="100">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="customHeight">Custom Height (cm)</label>
+                <input type="number" class="form-input" id="customHeight" placeholder="Height" min="1" max="100">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="customDepth">Custom Depth (cm)</label>
+                <input type="number" class="form-input" id="customDepth" placeholder="Depth" min="1" max="100">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Color Scheme</h3>
+            <label class="form-label">Primary Colors (select up to 3)</label>
+            <div class="color-palette">
+              <div class="color-option" data-color="red" style="background-color: #ff6b6b;"></div>
+              <div class="color-option" data-color="blue" style="background-color: #4ecdc4;"></div>
+              <div class="color-option" data-color="green" style="background-color: #45b7d1;"></div>
+              <div class="color-option" data-color="yellow" style="background-color: #f7dc6f;"></div>
+              <div class="color-option" data-color="purple" style="background-color: #bb8fce;"></div>
+              <div class="color-option" data-color="pink" style="background-color: #f8c2c1;"></div>
+              <div class="color-option" data-color="orange" style="background-color: #f39c12;"></div>
+              <div class="color-option" data-color="brown" style="background-color: #8d6e63;"></div>
+              <div class="color-option" data-color="black" style="background-color: #34495e;"></div>
+              <div class="color-option" data-color="white" style="background-color: #ecf0f1; border-color: #bdc3c7;"></div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Materials</h3>
+            <div class="material-options" id="materialOptions">
+              <!-- Materials will be populated based on category -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Additional Details -->
+        <div class="step-content" data-step="3">
+          <h2 class="section-title">Additional Details</h2>
+          
+          <div class="form-section">
+            <h3 class="section-title">Quantity & Budget</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="quantity">Quantity *</label>
+                <input type="number" class="form-input" id="quantity" value="1" min="1" max="1000" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="budget">Budget Range</label>
+                <select class="form-select" id="budget">
+                  <option value="">Select budget range</option>
+                  <option value="50-100">$50 - $100</option>
+                  <option value="100-250">$100 - $250</option>
+                  <option value="250-500">$250 - $500</option>
+                  <option value="500-1000">$500 - $1000</option>
+                  <option value="1000+">$1000+</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Special Requirements</h3>
+            <div class="form-group">
+              <label class="form-label" for="specialFeatures">Special Features</label>
+              <textarea class="form-textarea" id="specialFeatures" placeholder="Describe any special features like sounds, lights, moveable parts, etc."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="safetyRequirements">Safety Requirements</label>
+              <textarea class="form-textarea" id="safetyRequirements" placeholder="Any specific safety requirements or age restrictions?"></textarea>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Reference Images</h3>
+            <div class="upload-area" id="uploadArea">
+              <div class="upload-icon">📁</div>
+              <div class="upload-text">Drop your reference images here</div>
+              <div class="upload-hint">or click to browse (JPG, PNG, PDF up to 10MB each)</div>
+              <input type="file" id="fileInput" multiple accept="image/*,.pdf" style="display: none;">
+            </div>
+            <div class="preview-area" id="previewArea">
+              <div class="preview-images" id="previewImages"></div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Timeline</h3>
+            <div class="form-group">
+              <label class="form-label" for="deadline">Preferred Completion Date</label>
+              <input type="date" class="form-input" id="deadline" min="">
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Review & Submit -->
+        <div class="step-content" data-step="4">
+          <h2 class="section-title">Review Your Design</h2>
+          
+          <div class="summary-section">
+            <h3 class="summary-title">Design Summary</h3>
+            <div class="summary-grid" id="designSummary">
+              <!-- Summary will be populated dynamically -->
+            </div>
+          </div>
+
+          <div class="price-estimate">
+            <div class="price-label">Estimated Price Range</div>
+            <div class="price-amount" id="priceEstimate">$150 - $300</div>
+            <div class="price-note">Final price will be provided in your custom quote</div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Contact Information</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="contactName">Contact Name *</label>
+                <input type="text" class="form-input" id="contactName" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contactEmail">Email Address *</label>
+                <input type="email" class="form-input" id="contactEmail" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contactPhone">Phone Number</label>
+                <input type="tel" class="form-input" id="contactPhone">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="preferredContact">Preferred Contact Method</label>
+                <select class="form-select" id="preferredContact">
+                  <option value="email">Email</option>
+                  <option value="phone">Phone</option>
+                  <option value="both">Both</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wizard Actions -->
+      <div class="wizard-actions">
+        <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">Previous</button>
+        <div class="step-info">Step <span id="currentStep">1</span> of 4</div>
+        <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    $(document).ready(function() {
+      let currentStep = 1;
+      let selectedCategory = '';
+      let selectedColors = [];
+      let selectedMaterials = [];
+      let uploadedFiles = [];
+
+      // Initialize
+      initializePage();
+      updateStepDisplay();
+      setMinDate();
+
+      function initializePage() {
+        // Check if user is logged in
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (user) {
+          $('#contactName').val(user.name);
+          $('#contactEmail').val(user.email);
+          $('#authLink').text('Logout').attr('href', '#').on('click', function(e) {
+            e.preventDefault();
+            logout();
+          });
+        }
+      }
+
+      function setMinDate() {
+        const today = new Date();
+        const minDate = new Date(today.getTime() + (14 * 24 * 60 * 60 * 1000)); // 2 weeks from today
+        $('#deadline').attr('min', minDate.toISOString().split('T')[0]);
+      }
+
+      // Category selection
+      $('.category-card').on('click', function() {
+        $('.category-card').removeClass('selected');
+        $(this).addClass('selected');
+        selectedCategory = $(this).data('category');
+        updateMaterialOptions();
+        validateStep(1);
+      });
+
+      // Color selection
+      $('.color-option').on('click', function() {
+        const color = $(this).data('color');
+        
+        if ($(this).hasClass('selected')) {
+          $(this).removeClass('selected');
+          selectedColors = selectedColors.filter(c => c !== color);
+        } else if (selectedColors.length < 3) {
+          $(this).addClass('selected');
+          selectedColors.push(color);
+        } else {
+          showNotification('You can select up to 3 colors', 'warning');
+        }
+      });
+
+      // Material selection
+      $(document).on('click', '.material-card', function() {
+        $(this).toggleClass('selected');
+        const material = $(this).data('material');
+        
+        if ($(this).hasClass('selected')) {
+          selectedMaterials.push(material);
+        } else {
+          selectedMaterials = selectedMaterials.filter(m => m !== material);
+        }
+      });
+
+      // Size slider
+      $('#sizeSlider').on('input', function() {
+        const value = parseInt($(this).val());
+        const sizeLabels = {
+          1: 'Extra Small (5-10 cm)',
+          2: 'Small (10-15 cm)', 
+          3: 'Medium (15-25 cm)',
+          4: 'Large (25-40 cm)',
+          5: 'Extra Large (40+ cm)'
+        };
+        $('#sizeDisplay').text(sizeLabels[value]);
+      });
+
+      // File upload
+      $('#uploadArea').on('click', function() {
+        $('#fileInput').click();
+      });
+
+      $('#uploadArea').on('dragover', function(e) {
+        e.preventDefault();
+        $(this).addClass('dragover');
+      });
+
+      $('#uploadArea').on('dragleave', function(e) {
+        e.preventDefault();
+        $(this).removeClass('dragover');
+      });
+
+      $('#uploadArea').on('drop', function(e) {
+        e.preventDefault();
+        $(this).removeClass('dragover');
+        const files = e.originalEvent.dataTransfer.files;
+        handleFiles(files);
+      });
+
+      $('#fileInput').on('change', function() {
+        handleFiles(this.files);
+      });
+
+      function handleFiles(files) {
+        for (let file of files) {
+          if (file.size > 10 * 1024 * 1024) {
+            showNotification(`File ${file.name} is too large. Maximum size is 10MB.`, 'error');
+            continue;
+          }
+          
+          uploadedFiles.push(file);
+          
+          if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              addPreviewImage(e.target.result, file.name);
+            };
+            reader.readAsDataURL(file);
+          } else {
+            addPreviewImage(null, file.name);
+          }
+        }
+        
+        if (uploadedFiles.length > 0) {
+          $('#previewArea').show();
+        }
+      }
+
+      function addPreviewImage(src, name) {
+        const previewHtml = `
+          <div class="preview-item" data-filename="${name}">
+            ${src ? `<img src="${src}" alt="${name}" class="preview-image">` : 
+              `<div class="preview-image" style="display: flex; align-items: center; justify-content: center; background: #f8f9fa; color: #666;">📄 ${name}</div>`}
+            <button class="preview-remove" onclick="removeFile('${name}')">&times;</button>
+          </div>
+        `;
+        $('#previewImages').append(previewHtml);
+      }
+
+      window.removeFile = function(filename) {
+        uploadedFiles = uploadedFiles.filter(f => f.name !== filename);
+        $(`.preview-item[data-filename="${filename}"]`).remove();
+        
+        if (uploadedFiles.length === 0) {
+          $('#previewArea').hide();
+        }
+      };
+
+      function updateMaterialOptions() {
+        const materials = {
+          plush: [
+            { id: 'cotton', name: 'Cotton Fill', desc: 'Soft and hypoallergenic' },
+            { id: 'polyester', name: 'Polyester Fill', desc: 'Durable and washable' },
+            { id: 'bamboo', name: 'Bamboo Fiber', desc: 'Eco-friendly and antibacterial' },
+            { id: 'minky', name: 'Minky Fabric', desc: 'Ultra-soft texture' }
+          ],
+          action: [
+            { id: 'abs', name: 'ABS Plastic', desc: 'Strong and flexible' },
+            { id: 'pvc', name: 'PVC', desc: 'Detailed molding possible' },
+            { id: 'metal', name: 'Die-cast Metal', desc: 'Premium weight and feel' },
+            { id: 'rubber', name: 'Flexible Rubber', desc: 'Bendable joints' }
+          ],
+          educational: [
+            { id: 'wood', name: 'Natural Wood', desc: 'Sustainable and safe' },
+            { id: 'recycled', name: 'Recycled Plastic', desc: 'Eco-friendly option' },
+            { id: 'foam', name: 'EVA Foam', desc: 'Soft and colorful' },
+            { id: 'cardboard', name: 'Reinforced Cardboard', desc: 'Lightweight and safe' }
+          ],
+          vehicles: [
+            { id: 'aluminum', name: 'Aluminum Alloy', desc: 'Lightweight and durable' },
+            { id: 'steel', name: 'Steel Frame', desc: 'Maximum durability' },
+            { id: 'composite', name: 'Composite Materials', desc: 'Modern and strong' },
+            { id: 'plastic', name: 'High-grade Plastic', desc: 'Safe for children' }
+          ],
+          dolls: [
+            { id: 'vinyl', name: 'Vinyl Body', desc: 'Realistic skin feel' },
+            { id: 'cloth', name: 'Cloth Body', desc: 'Cuddly and soft' },
+            { id: 'porcelain', name: 'Porcelain Face', desc: 'Collector quality' },
+            { id: 'silicone', name: 'Silicone Parts', desc: 'Lifelike appearance' }
+          ],
+          building: [
+            { id: 'abs_blocks', name: 'ABS Blocks', desc: 'Standard building blocks' },
+            { id: 'magnetic', name: 'Magnetic Pieces', desc: 'Easy assembly' },
+            { id: 'wood_blocks', name: 'Wooden Blocks', desc: 'Classic natural feel' },
+            { id: 'foam_blocks', name: 'Foam Blocks', desc: 'Safe for young children' }
+          ]
+        };
+
+        const categoryMaterials = materials[selectedCategory] || [];
+        const html = categoryMaterials.map(material => `
+          <div class="material-card" data-material="${material.id}">
+            <div class="material-name" style="font-weight: 600; margin-bottom: 5px;">${material.name}</div>
+            <div class="material-desc" style="font-size: 0.9rem; color: #666;">${material.desc}</div>
+          </div>
+        `).join('');
+
+        $('#materialOptions').html(html);
+      }
+
+      // Step navigation
+      $('#nextBtn').on('click', function() {
+        if (validateCurrentStep()) {
+          if (currentStep < 4) {
+            currentStep++;
+            updateStepDisplay();
+            
+            if (currentStep === 4) {
+              updateSummary();
+            }
+          } else {
+            submitDesign();
+          }
+        }
+      });
+
+      $('#prevBtn').on('click', function() {
+        if (currentStep > 1) {
+          currentStep--;
+          updateStepDisplay();
+        }
+      });
+
+      // Step clicking
+      $('.step-item').on('click', function() {
+        const targetStep = parseInt($(this).data('step'));
+        if (targetStep <= currentStep || $(this).hasClass('completed')) {
+          currentStep = targetStep;
+          updateStepDisplay();
+        }
+      });
+
+      function updateStepDisplay() {
+        // Update step items
+        $('.step-item').removeClass('active completed');
+        $('.step-item').each(function() {
+          const stepNum = parseInt($(this).data('step'));
+          if (stepNum === currentStep) {
+            $(this).addClass('active');
+          } else if (stepNum < currentStep) {
+            $(this).addClass('completed');
+          }
+        });
+
+        // Update content
+        $('.step-content').removeClass('active');
+        $(`.step-content[data-step="${currentStep}"]`).addClass('active');
+
+        // Update buttons
+        $('#prevBtn').toggle(currentStep > 1);
+        $('#nextBtn').text(currentStep === 4 ? 'Submit Request' : 'Next');
+        $('#currentStep').text(currentStep);
+
+        // Scroll to top
+        $('.design-wizard')[0].scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function validateCurrentStep() {
+        switch (currentStep) {
+          case 1:
+            return validateStep(1);
+          case 2:
+            return validateStep(2);
+          case 3:
+            return validateStep(3);
+          case 4:
+            return validateStep(4);
+          default:
+            return true;
+        }
+      }
+
+      function validateStep(step) {
+        switch (step) {
+          case 1:
+            if (!selectedCategory) {
+              showNotification('Please select a toy category', 'error');
+              return false;
+            }
+            return true;
+          
+          case 2:
+            const toyName = $('#toyName').val().trim();
+            if (!toyName) {
+              showNotification('Please enter a toy name', 'error');
+              $('#toyName').focus();
+              return false;
+            }
+            return true;
+          
+          case 3:
+            const quantity = parseInt($('#quantity').val());
+            if (!quantity || quantity < 1) {
+              showNotification('Please enter a valid quantity', 'error');
+              $('#quantity').focus();
+              return false;
+            }
+            return true;
+          
+          case 4:
+            const contactName = $('#contactName').val().trim();
+            const contactEmail = $('#contactEmail').val().trim();
+            
+            if (!contactName) {
+              showNotification('Please enter your contact name', 'error');
+              $('#contactName').focus();
+              return false;
+            }
+            
+            if (!contactEmail || !isValidEmail(contactEmail)) {
+              showNotification('Please enter a valid email address', 'error');
+              $('#contactEmail').focus();
+              return false;
+            }
+            
+            return true;
+          
+          default:
+            return true;
+        }
+      }
+
+      function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      function updateSummary() {
+        const sizeValue = $('#sizeSlider').val();
+        const sizeLabels = {
+          1: 'Extra Small (5-10 cm)',
+          2: 'Small (10-15 cm)', 
+          3: 'Medium (15-25 cm)',
+          4: 'Large (25-40 cm)',
+          5: 'Extra Large (40+ cm)'
+        };
+
+        const summary = [
+          { label: 'Category', value: selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1) + ' Toys' },
+          { label: 'Toy Name', value: $('#toyName').val() || 'Not specified' },
+          { label: 'Size', value: sizeLabels[sizeValue] },
+          { label: 'Quantity', value: $('#quantity').val() || '1' },
+          { label: 'Colors', value: selectedColors.length > 0 ? selectedColors.join(', ') : 'Not selected' },
+          { label: 'Materials', value: selectedMaterials.length > 0 ? selectedMaterials.join(', ') : 'Not selected' },
+          { label: 'Budget Range', value: $('#budget').val() || 'Not specified' },
+          { label: 'Deadline', value: $('#deadline').val() || 'Flexible' },
+          { label: 'Reference Files', value: `${uploadedFiles.length} files uploaded` }
+        ];
+
+        const summaryHtml = summary.map(item => `
+          <div class="summary-item">
+            <div class="summary-label">${item.label}</div>
+            <div class="summary-value">${item.value}</div>
+          </div>
+        `).join('');
+
+        $('#designSummary').html(summaryHtml);
+        
+        // Update price estimate based on selections
+        updatePriceEstimate();
+      }
+
+      function updatePriceEstimate() {
+        const basePrice = 100;
+        const sizeMultiplier = parseInt($('#sizeSlider').val()) * 50;
+        const materialMultiplier = selectedMaterials.length * 25;
+        const complexityMultiplier = uploadedFiles.length > 0 ? 75 : 25;
+        const quantity = parseInt($('#quantity').val()) || 1;
+        
+        const unitPrice = basePrice + sizeMultiplier + materialMultiplier + complexityMultiplier;
+        const totalPrice = unitPrice * quantity;
+        const minPrice = Math.round(totalPrice * 0.8);
+        const maxPrice = Math.round(totalPrice * 1.2);
+        
+        $('#priceEstimate').text(`$${minPrice} - $${maxPrice}`);
+      }
+
+      function submitDesign() {
+        const designData = {
+          id: Date.now(),
+          category: selectedCategory,
+          name: $('#toyName').val(),
+          description: $('#toyDescription').val(),
+          size: $('#sizeSlider').val(),
+          customDimensions: {
+            width: $('#customWidth').val(),
+            height: $('#customHeight').val(),
+            depth: $('#customDepth').val()
+          },
+          colors: selectedColors,
+          materials: selectedMaterials,
+          quantity: parseInt($('#quantity').val()),
+          budget: $('#budget').val(),
+          specialFeatures: $('#specialFeatures').val(),
+          safetyRequirements: $('#safetyRequirements').val(),
+          deadline: $('#deadline').val(),
+          contact: {
+            name: $('#contactName').val(),
+            email: $('#contactEmail').val(),
+            phone: $('#contactPhone').val(),
+            preferredMethod: $('#preferredContact').val()
+          },
+          files: uploadedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
+          status: 'pending',
+          submittedAt: new Date().toISOString(),
+          estimatedPrice: $('#priceEstimate').text()
+        };
+
+        // Save to localStorage (simulate API call)
+        const existingRequests = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
+        existingRequests.push(designData);
+        localStorage.setItem('quoteRequests', JSON.stringify(existingRequests));
+
+        // Show success message
+        showNotification('Your custom toy design request has been submitted successfully!', 'success');
+        
+        // Redirect to quote requests page
+        setTimeout(() => {
+          window.location.href = 'quote-requests.html';
+        }, 2000);
+      }
+
+      function showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = $(`
+          <div class="notification notification-${type}" style="
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 10000;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease;
+          ">
+            ${message}
+          </div>
+        `);
+
+        $('body').append(notification);
+
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+          notification.animate({ opacity: 0, right: -400 }, 300, function() {
+            $(this).remove();
+          });
+        }, 3000);
+      }
+
+      function logout() {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</body>
+</html>

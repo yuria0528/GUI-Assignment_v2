@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sales Dashboard - Smile & Sunshine Toys</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    /* Oriental Traffic inspired sales dashboard styles */
+    body {
+      background: #ffffff;
+      color: #333;
+      padding: 0;
+    }
+    
+    .top-banner {
+      background: #f8f8f8;
+      padding: 8px 0;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .main-header {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+    
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #333;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .main-nav {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .main-nav a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 10px 0;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .user-info {
+      background: #f8f9fa;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .page-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 60px 0 40px 0;
+      text-align: center;
+    }
+    
+    .page-title {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .page-subtitle {
+      font-size: 18px;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid #f0f0f0;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .stat-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+    
+    .stat-number {
+      font-size: 36px;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 8px;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    
+    .stat-trend {
+      font-size: 12px;
+      color: #28a745;
+      font-weight: 600;
+    }
+    
+    .dashboard-sections {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .section-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid #f0f0f0;
+      overflow: hidden;
+    }
+    
+    .section-header {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 25px 30px;
+      border-bottom: 1px solid #dee2e6;
+    }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+    
+    .section-subtitle {
+      font-size: 14px;
+      color: #666;
+      margin: 5px 0 0 0;
+    }
+    
+    .section-content {
+      padding: 30px;
+    }
+    
+    .request-item {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      border: 1px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+    
+    .request-item:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .request-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .request-info {
+      flex: 1;
+    }
+    
+    .request-id {
+      font-size: 16px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    
+    .request-customer {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    
+    .request-date {
+      color: #999;
+      font-size: 12px;
+    }
+    
+    .request-status {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeaa7;
+    }
+    
+    .status-processing {
+      background: #cce5ff;
+      color: #0066cc;
+      border: 1px solid #99d6ff;
+    }
+    
+    .status-completed {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #a3d9a5;
+    }
+    
+    .request-details {
+      margin: 15px 0;
+    }
+    
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+    
+    .detail-label {
+      color: #666;
+    }
+    
+    .detail-value {
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .request-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .action-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .btn-approve {
+      background: #28a745;
+      color: white;
+    }
+    
+    .btn-approve:hover {
+      background: #218838;
+      transform: translateY(-1px);
+    }
+    
+    .btn-update {
+      background: #007bff;
+      color: white;
+    }
+    
+    .btn-update:hover {
+      background: #0056b3;
+      transform: translateY(-1px);
+    }
+    
+    .btn-reject {
+      background: #dc3545;
+      color: white;
+    }
+    
+    .btn-reject:hover {
+      background: #c82333;
+      transform: translateY(-1px);
+    }
+    
+    .quick-actions {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .quick-actions h4 {
+      margin: 0 0 15px 0;
+      color: #333;
+      font-size: 16px;
+    }
+    
+    .quick-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    .quick-btn:hover {
+      border-color: #667eea;
+      color: #667eea;
+      background: rgba(102, 126, 234, 0.05);
+    }
+    
+    .filters-section {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-select {
+      padding: 8px 12px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 14px;
+      background: white;
+      transition: all 0.3s ease;
+    }
+    
+    .filter-select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+    
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+    
+    .empty-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    
+    .empty-text {
+      font-size: 14px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .login-prompt {
+      background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      border-left: 4px solid #667eea;
+      margin: 20px 0;
+    }
+    
+    .login-prompt h3 {
+      color: #667eea;
+      margin: 0 0 15px 0;
+      font-size: 20px;
+    }
+    
+    .login-prompt p {
+      color: #666;
+      margin: 0 0 20px 0;
+      font-size: 14px;
+    }
+    
+    .login-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard-sections {
+        grid-template-columns: 1fr;
+      }
+      
+      .dashboard-stats {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+      }
+      
+      .request-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .request-actions {
+        justify-content: stretch;
+      }
+      
+      .action-btn {
+        flex: 1;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Banner -->
+  <div class="top-banner">
+    🏢 Sales Dashboard | 📊 Real-time Order Management | 📞 Support: 1-800-SALES
+  </div>
+
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        🧸 Smile & Sunshine
+      </a>
+      
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="catalog.html">Products</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="order-status.html">Orders</a>
+        <a href="sales-dashboard.html" class="active">Dashboard</a>
+      </nav>
+      
+      <div class="header-actions">
+        <div class="user-info">👤 Sales Team</div>
+        <a href="login.html" style="color: #667eea; text-decoration: none; font-weight: 600;">Sign Out</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <h1 class="page-title">Sales Dashboard</h1>
+    <p class="page-subtitle">Manage customer requests, track orders, and monitor sales performance</p>
+  </section>
+
+  <!-- Main Content -->
+  <main class="dashboard-container">
+    <!-- Dashboard Statistics -->
+    <div class="dashboard-stats">
+      <div class="stat-card">
+        <div class="stat-icon">📋</div>
+        <div class="stat-number" id="pendingRequests">0</div>
+        <div class="stat-label">Pending Requests</div>
+        <div class="stat-trend">+0 today</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-number" id="processingOrders">0</div>
+        <div class="stat-label">Processing Orders</div>
+        <div class="stat-trend">+0 today</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-number" id="completedToday">0</div>
+        <div class="stat-label">Completed Today</div>
+        <div class="stat-trend">+0% vs yesterday</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-number" id="totalRevenue">$0</div>
+        <div class="stat-label">Total Revenue</div>
+        <div class="stat-trend">+0% this month</div>
+      </div>
+    </div>
+
+    <!-- Dashboard Sections -->
+    <div class="dashboard-sections">
+      <!-- Main Requests Section -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">📨 Incoming Purchase Requests</h2>
+          <p class="section-subtitle">Review and manage customer orders and customization requests</p>
+        </div>
+        
+        <div class="section-content">
+          <!-- Filters -->
+          <div class="filters-section">
+            <select class="filter-select" id="statusFilter">
+              <option value="all">All Status</option>
+              <option value="pending">Pending Review</option>
+              <option value="processing">Processing</option>
+              <option value="completed">Completed</option>
+            </select>
+            
+            <select class="filter-select" id="dateFilter">
+              <option value="all">All Time</option>
+              <option value="today">Today</option>
+              <option value="week">This Week</option>
+              <option value="month">This Month</option>
+            </select>
+            
+            <select class="filter-select" id="customerFilter">
+              <option value="all">All Customers</option>
+              <option value="vip">VIP Customers</option>
+              <option value="new">New Customers</option>
+            </select>
+          </div>
+          
+          <div id="salesRequests">
+            <!-- Login Prompt for Non-Sales Users -->
+            <div class="login-prompt" id="loginPrompt">
+              <h3>🔐 Sales Access Required</h3>
+              <p>Please sign in with a sales account to view and manage customer purchase requests.</p>
+              <a href="login.html" class="login-btn">Sign In as Sales</a>
+            </div>
+            
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+              <div class="empty-icon">📭</div>
+              <h3 class="empty-title">No Requests Yet</h3>
+              <p class="empty-text">Customer purchase requests will appear here when submitted.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions Sidebar -->
+      <div class="section-card">
+        <div class="section-header">
+          <h3 class="section-title">⚡ Quick Actions</h3>
+        </div>
+        
+        <div class="section-content">
+          <div class="quick-actions">
+            <h4>📊 Reports</h4>
+            <a href="#" class="quick-btn">📈 Sales Report</a>
+            <a href="#" class="quick-btn">📋 Order Summary</a>
+            <a href="#" class="quick-btn">👥 Customer Analysis</a>
+          </div>
+          
+          <div class="quick-actions">
+            <h4>⚙️ Management</h4>
+            <a href="catalog.html" class="quick-btn">📦 Manage Products</a>
+            <a href="#" class="quick-btn">👤 Customer Support</a>
+            <a href="#" class="quick-btn">⚙️ System Settings</a>
+          </div>
+          
+          <div class="quick-actions">
+            <h4>📞 Support</h4>
+            <a href="#" class="quick-btn">💬 Live Chat</a>
+            <a href="#" class="quick-btn">📧 Email Support</a>
+            <a href="#" class="quick-btn">📱 Call Customer</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    // Enhanced dashboard functionality
+    $(document).ready(function() {
+      // Check if user is logged in as sales
+      function checkSalesAccess() {
+        // This would normally check authentication
+        // For demo purposes, show login prompt initially
+        const isSalesUser = false; // Replace with actual auth check
+        
+        if (!isSalesUser) {
+          $('#loginPrompt').show();
+          $('#emptyState').hide();
+        } else {
+          $('#loginPrompt').hide();
+          updateDashboard();
+        }
+      }
+      
+      // Update dashboard statistics
+      function updateDashboard() {
+        // This would normally fetch real data from API
+        const stats = {
+          pending: 12,
+          processing: 8,
+          completed: 45,
+          revenue: 28450
+        };
+        
+        $('#pendingRequests').text(stats.pending);
+        $('#processingOrders').text(stats.processing);
+        $('#completedToday').text(stats.completed);
+        $('#totalRevenue').text('$' + stats.revenue.toLocaleString());
+        
+        // Show requests if any exist
+        if (stats.pending > 0 || stats.processing > 0) {
+          $('#emptyState').hide();
+          // Load actual requests here
+        } else {
+          $('#emptyState').show();
+        }
+      }
+      
+      // Filter functionality
+      $('.filter-select').on('change', function() {
+        const statusFilter = $('#statusFilter').val();
+        const dateFilter = $('#dateFilter').val();
+        const customerFilter = $('#customerFilter').val();
+        
+        // Apply filters to request list
+        filterRequests(statusFilter, dateFilter, customerFilter);
+      });
+      
+      function filterRequests(status, date, customer) {
+        // Filter logic would be implemented here
+        console.log('Filtering by:', { status, date, customer });
+      }
+      
+      // Action button handlers
+      $(document).on('click', '.action-btn', function() {
+        const action = $(this).hasClass('btn-approve') ? 'approve' : 
+                      $(this).hasClass('btn-update') ? 'update' : 'reject';
+        const requestId = $(this).closest('.request-item').find('.request-id').text();
+        
+        // Handle the action
+        handleRequestAction(action, requestId);
+      });
+      
+      function handleRequestAction(action, requestId) {
+        // Action handling logic would be implemented here
+        console.log('Action:', action, 'for request:', requestId);
+        
+        // Show success message
+        showNotification(`Request ${requestId} has been ${action}d successfully!`);
+      }
+      
+      function showNotification(message) {
+        // Create and show notification
+        const notification = $(`
+          <div class="notification" style="
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            z-index: 3000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+          ">
+            ${message}
+          </div>
+        `);
+        
+        $('body').append(notification);
+        
+        setTimeout(() => {
+          notification.fadeOut(() => notification.remove());
+        }, 3000);
+      }
+      
+      // Initialize dashboard
+      checkSalesAccess();
+      
+      // Auto-refresh every 30 seconds
+      setInterval(updateDashboard, 30000);
+    });
+  </script>
+</body>
+</html>
